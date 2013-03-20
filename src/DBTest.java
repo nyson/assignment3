@@ -1,6 +1,6 @@
 import java.sql.*;
 
-public class DBtest {
+public class DBTest {
 	public static void main(String[] argv) {
 		try { 
 			Class.forName("org.sqlite.JDBC");
