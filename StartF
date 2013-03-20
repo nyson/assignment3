@@ -1,0 +1,24 @@
+import java.awt.*;
+import javax.swing.*;
+
+public class StartF extends JFrame {
+    JPanel p1 = new JPanel();
+
+    public StartF() {
+  Container c = (Container) getContentPane();
+
+	p1.setBackground(Color.white);
+	p1.setPreferredSize(new Dimension(300,120)); //bestämer storlek på fönster
+	c.setLayout(new BorderLayout());
+	c.add(p1, BorderLayout.CENTER);
+	pack();
+	setVisible(true);
+	setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public static void main(String[] args) {
+	StartF e1 = new StartF();
+    } // end of main()
+}
+
+    
