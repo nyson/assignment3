@@ -1,12 +1,19 @@
+/* READ THIS!!
+ * All this file does is
+ * A: Being a CPanel WITHIN the main CFrame i.e. Start.java
+ * B: Handles the input from the user, filling a form
+ * C: Saving the values in some variables on the press of a button
+ * When that button is pressed Start.java 
+ * 		1. reads these values
+ * 		2. querys the Bank object
+ * 		3. and returns an answer to this CPanel
+ * D: Displays the answer to the user (and clears the form)
+ */
+
 import javax.swing.*;
 import javax.swing.border.*;
-
 import java.awt.event.*;
 import java.awt.*;
-
-/**
- * 
- */
 
 /**
  * @author Magnus
@@ -16,9 +23,9 @@ public class PersonPanel extends JPanel {
 	
 	String name = "";
 	String street = "";
-	String postno = "";
+	int postno = 0;
 	String city = "";
-	//Person person = new Person();
+	Person personToAdd = new Person(name, street, postno, city);
 
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
@@ -47,14 +54,11 @@ public class PersonPanel extends JPanel {
 			// skapar inre klass (actionlistener är ett interface)
 			public void actionPerformed(ActionEvent e) {
 
-	
-				
-				// which button?
+				// which button was pressed?
 				if (e.getSource() == addButton){
-					streetField.setText("Add");
 					name = nameField.getText();
 					street = streetField.getText();
-					postno = postnoField.getText();
+					postno = Integer.parseInt(postnoField.getText());
 					city = cityField.getText();
 				}
 				else if (e.getSource() == clearButton)

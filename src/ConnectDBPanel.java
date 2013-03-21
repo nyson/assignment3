@@ -1,3 +1,14 @@
+/* READ THIS !!
+ * All this file does is
+ * A: Being a CPanel WITHIN the main CFrame i.e. Start.java
+ * B: Handles the input from the user, filling a form
+ * C: Saving the values in some variables on the press of a button
+ * When that button is pressed Start.java 
+ * 		1. reads these values
+ * 		2. querys the Bank object
+ * 		3. and returns an answer to this CPanel
+ * D: Displays the answer to the user (and clears the form)
+ */
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -22,11 +33,29 @@ public class ConnectDBPanel extends JPanel {
 	// Reusable objects for settings
 	Dimension panelSize = new Dimension(300,100);
 	
+	/**
+	 *  Listeners
+	 */
+	ActionListener buttonListener = new ActionListener() {
+		// Creates an inner class
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == clearButton){
+				choiceField.setText("");
+			}
+		} // end of inner class
+	}; // End of buttonListener
+
+	
+	
 	/**Constructor
 	 * The panel where you can add persons to the database
 	 */
 	public ConnectDBPanel() {
-
+		
+		// Attach Listeners
+		addButton.addActionListener(buttonListener);
+		clearButton.addActionListener(buttonListener);
+		
 		// Design issues
 		choiceLabel.setBorder(new EtchedBorder());
 		

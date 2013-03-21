@@ -1,13 +1,17 @@
 import javax.swing.*;
-import javax.swing.event.EventListenerList;
-
 import java.awt.event.*;
 import java.awt.*;
+
 public class Start extends JFrame {
 	
+	// don't know, eclipse forced me hand
 	private static final long serialVersionUID = -8523424458968940482L;
+	
+	// The Bank object that handles the SQL database
+	Bank werasBank = new Bank();
+	
 	// Graphical elements to be used
-	//Menues
+	//Menus
 	JMenuBar menuBar = new JMenuBar();
 	JMenu fileMenu = new JMenu("Arkiv");
 	JMenu registerMenu = new JMenu("Registerhantering");
@@ -21,7 +25,7 @@ public class Start extends JFrame {
 	JMenuItem statementMenuItem = new JMenuItem("Kontoutdrag");
 	JMenuItem aboutMenuItem = new JMenuItem("Om");
 	
-	//Testshit
+	//Test code
 	JLabel testLabel = new JLabel("Testfield (lies in Start panel)");
 	JTextField testTextField = new JTextField(20);
 	
@@ -39,9 +43,11 @@ public class Start extends JFrame {
 	// Listener for personPanel 
 	// ActionListener personPanelListener = personPanel.getListeners(listenerType);
 	
-	// Listener for all buttons (and menues which are buttons)
+	/**
+	 *  Listener for all buttons (and menus which are buttons)
+	 */
 	ActionListener buttonListener = new ActionListener() {
-		// skapar inre klass (actionlistener är ett interface)
+		// Creates an inner class
 		public void actionPerformed(ActionEvent e) {
 
 			activePanel.setVisible(false);	// hide the active panel
@@ -57,10 +63,18 @@ public class Start extends JFrame {
 		} // end of inner class
 	}; // End of Listener for all buttons
 	
-	// Listener for all buttons (and menues which are buttons)
-	ActionListener personAddButtonListener = new ActionListener() {
+	
+	
+	/**
+	 * Listener for the add button in personPanel
+	 */ 
+	 	ActionListener personAddButtonListener = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			System.out.print("TTTESSST");
+			String queryString = personPanel.name + ";" +
+								  personPanel.street + ";" +
+								  personPanel.postno + ";" +
+								  personPanel.city;
+			System.out.print(queryBank(queryString));
 	} // end of inner class
 }; // End of Listener for all buttons
 
@@ -86,7 +100,7 @@ public class Start extends JFrame {
 		}catch(Exception ex){}
 
 	// Set the start settings for all components
-		// Connect the buttons to the buttonlistener
+		// Connect the buttons to the buttonListener
 		connectDBMenuItem.addActionListener(buttonListener);
 		newPersonMenuItem.addActionListener(buttonListener);
 		newAccountMenuItem.addActionListener(buttonListener);
@@ -136,7 +150,6 @@ public class Start extends JFrame {
     	// Show the active panel and the the main window
     	activePanel.setVisible(true); 
     	//pack(); 
-    	setVisible(true); // the main window 
 	
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 				
@@ -148,12 +161,22 @@ public class Start extends JFrame {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Start e1 = new Start();
-		System.out.println("test");
 
+		Start e1 = new Start();
+		e1.setVisible(true);
+		System.out.println("Weras betalservice is running...");
 	}
 	
-
+	/**
+	 * Sends a query to a Bank object and returns an answer String
+	 * @param query
+	 */
+	String queryBank(String query){
+		
+		String answer = werasBank.query(query);
+		return answer;
+	}
+	
 	void testMethod(){
 		System.out.println("anropat från sub pane");
 	}
