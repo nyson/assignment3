@@ -16,8 +16,7 @@ public class DB {
 	private void open() {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			conn = DriverManager
-					.getConnection("jdbc:sqlite:wera.sqlite");
+			conn = DriverManager.getConnection("jdbc:sqlite:wera.sqlite");
 
 		} catch (SQLException e) {
 			System.out.println("SQL error!");
