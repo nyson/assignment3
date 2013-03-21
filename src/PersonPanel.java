@@ -13,7 +13,14 @@ import java.awt.*;
  *
  */
 public class PersonPanel extends JPanel {
+	
+	String name = "";
+	String street = "";
+	String postno = "";
+	String city = "";
+	//Person person = new Person();
 
+	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
 	JLabel nameLabel = new JLabel("Namn");
 	JLabel streetLabel = new JLabel("Gatuadress");
@@ -29,20 +36,49 @@ public class PersonPanel extends JPanel {
 	JLabel cityStatusLabel = new JLabel("Saknas");
 	JButton addButton = new JButton("Lägg till");
 	JButton clearButton = new JButton("Rensa");
+	
 
-	// Reusable objects for settings
+	// Reusable objects for design settings
 	Dimension panelSize = new Dimension(300,100);
+	Border labelBorder = new EtchedBorder();
+	
+	// Listener for this panels buttons
+		ActionListener buttonListener = new ActionListener() {
+			// skapar inre klass (actionlistener är ett interface)
+			public void actionPerformed(ActionEvent e) {
+
+	
+				
+				// which button?
+				if (e.getSource() == addButton)
+					streetField.setText("Add");
+					name = nameField;
+					street = streetField;
+					postno = postoField;
+					city = cityField;
+					
+				else if (e.getSource() == clearButton)
+			    	 streetField.setText("Clear");
+				
+			} // end of inner class
+		}; // End of Listener for all buttons
+
 	
 	/**
-	 * Show the display where you can add persons to tha database
+	 * The panel where you can add new persons to the database
 	 */
 	public PersonPanel() {
-
-		// Design issues
-		nameLabel.setBorder(new EtchedBorder());
-		streetLabel.setBorder(new EtchedBorder());
-		postnoLabel.setBorder(new EtchedBorder());
-		cityLabel.setBorder(new EtchedBorder());
+	// Set the start settings for all components
+		
+		// Attach ActionListeners
+		addButton.addActionListener(buttonListener);
+		clearButton.addActionListener(buttonListener);
+		
+		// Design (border styles) 
+		nameLabel.setBorder(labelBorder);
+		streetLabel.setBorder(labelBorder);
+		postnoLabel.setBorder(labelBorder);
+		cityLabel.setBorder(labelBorder);
 		
 		// Add components so the LayoutmManager can distribute them
 		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
@@ -60,28 +96,10 @@ public class PersonPanel extends JPanel {
 	}
 
 	/**
-	 * @param arg0
+	 * Returns this panels actionlistener
+	 * @return
 	 */
-	public PersonPanel(LayoutManager arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
+	ActionListener getActionListener(){
+		return buttonListener;
 	}
-
-	/**
-	 * @param arg0
-	 */
-	public PersonPanel(boolean arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param arg0
-	 * @param arg1
-	 */
-	public PersonPanel(LayoutManager arg0, boolean arg1) {
-		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
-	}
-
 }

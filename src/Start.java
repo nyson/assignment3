@@ -1,9 +1,12 @@
 import javax.swing.*;
+import javax.swing.event.EventListenerList;
+
 import java.awt.event.*;
 import java.awt.*;
 public class Start extends JFrame {
 	
-// Graphical elements to be used
+	private static final long serialVersionUID = -8523424458968940482L;
+	// Graphical elements to be used
 	//Menues
 	JMenuBar menuBar = new JMenuBar();
 	JMenu fileMenu = new JMenu("Arkiv");
@@ -19,9 +22,8 @@ public class Start extends JFrame {
 	JMenuItem aboutMenuItem = new JMenuItem("Om");
 	
 	//Testshit
-	JButton b1 = new JButton("Tänd");
-	JButton b2 = new JButton("Släck");
-	JTextField txt = new JTextField(10);
+	JLabel testLabel = new JLabel("Testfield (lies in Start panel)");
+	JTextField testTextField = new JTextField(20);
 	
 	//Panels
 	ConnectDBPanel connectDBPanel = new ConnectDBPanel();
@@ -30,19 +32,21 @@ public class Start extends JFrame {
 	// This sets the active panel at start !!!
 	JPanel activePanel = connectDBPanel; // the Connect to database panel
 	
-// Settings that can be reused
+	// Settings that can be reused
 	Dimension windowSize = new Dimension(500, 350);
 	Dimension panelSize = new Dimension(300,100);
 	
+	// Listener for personPanel 
+	// ActionListener personPanelListener = personPanel.getListeners(listenerType);
 	
-// Listener for all buttons (and menues which are buttons)
+	// Listener for all buttons (and menues which are buttons)
 	ActionListener buttonListener = new ActionListener() {
 		// skapar inre klass (actionlistener är ett interface)
 		public void actionPerformed(ActionEvent e) {
 
 			activePanel.setVisible(false);	// hide the active panel
 
-			txt.setText(e.getSource().toString());
+			testTextField.setText(e.getSource().toString());
 			// select a new panel?
 			if (e.getSource() == newPersonMenuItem)
 				activePanel = personPanel;
@@ -53,7 +57,15 @@ public class Start extends JFrame {
 		} // end of inner class
 	}; // End of Listener for all buttons
 	
-	
+	// Listener for all buttons (and menues which are buttons)
+	ActionListener personAddButtonListener = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			System.out.print("TTTESSST");
+	} // end of inner class
+}; // End of Listener for all buttons
+
+
+
 	/**
 	 * Constructor. This must be called in order to be created
 	 * If this file is started from os it has contain a main()-method
@@ -75,8 +87,6 @@ public class Start extends JFrame {
 
 	// Set the start settings for all components
 		// Connect the buttons to the buttonlistener
-		b1.addActionListener(buttonListener);
-		b2.addActionListener(buttonListener);
 		connectDBMenuItem.addActionListener(buttonListener);
 		newPersonMenuItem.addActionListener(buttonListener);
 		newAccountMenuItem.addActionListener(buttonListener);
@@ -87,9 +97,9 @@ public class Start extends JFrame {
 
 		setTitle("Weras betalservice");
 		setPreferredSize(windowSize);pack(); // Window size
-		setLayout(new FlowLayout()); // Use flow strategy to place components
+		setLayout(new FlowLayout()); // Use flow/grid/box strategy to place components
 		
-		// Add menues
+		// Add menus
 		menuBar.add(fileMenu); 
 		menuBar.add(registerMenu);
 		menuBar.add(manageAccountsMenu);
@@ -104,19 +114,32 @@ public class Start extends JFrame {
 		helpMenu.add(aboutMenuItem);
 		setJMenuBar(menuBar);
 		
-		// Add test shit
-		add(b1); add(b2); add(txt);
 		
+		add(new Box.Filler(new Dimension(200,20), new Dimension(200,20),
+				new Dimension(200,20))); // Spacing
+
 		// Add panels that we then can choose from
-		add(connectDBPanel);
+		add(connectDBPanel);		 
     	add(personPanel);
+		// Connect action listeners to the sub panels
+    	personPanel.addButton.addActionListener(personAddButtonListener);
+    	connectDBPanel.addButton.addActionListener(personAddButtonListener);
+    	    	
+		add(new Box.Filler(new Dimension(450,20), new Dimension(450,20),
+				new Dimension(450,20))); // Spacing
+
+/*TEST*/
+		// Test field    	
+		add(testLabel);add(testTextField);
+/* TEST */
     	
-    	// show the active panel and the the main window
-    	activePanel.setVisible(true);
+    	// Show the active panel and the the main window
+    	activePanel.setVisible(true); 
     	//pack(); 
-    	setVisible(true); 
+    	setVisible(true); // the main window 
 	
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+				
 	}
 
 	/**
@@ -126,5 +149,15 @@ public class Start extends JFrame {
 	 */
 	public static void main(String[] args) {
 		Start e1 = new Start();
+		System.out.println("test");
+
 	}
+	
+
+	void testMethod(){
+		System.out.println("anropat från sub pane");
+	}
+	
+	
+	
 }

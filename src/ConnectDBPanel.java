@@ -11,6 +11,7 @@ import java.awt.*;
  */
 public class ConnectDBPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
 	JLabel choiceLabel = new JLabel("Namn");
 	JTextField choiceField = new JTextField(10);
@@ -21,8 +22,8 @@ public class ConnectDBPanel extends JPanel {
 	// Reusable objects for settings
 	Dimension panelSize = new Dimension(300,100);
 	
-	/**
-	 * Show the display where you can add persons to tha database
+	/**Constructor
+	 * The panel where you can add persons to the database
 	 */
 	public ConnectDBPanel() {
 
@@ -40,30 +41,4 @@ public class ConnectDBPanel extends JPanel {
 		setVisible(false); // Start hidden
 		
 	}
-
-	/**
-	 * @param arg0
-	 */
-	public ConnectDBPanel(LayoutManager arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param arg0
-	 */
-	public ConnectDBPanel(boolean arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param arg0
-	 * @param arg1
-	 */
-	public ConnectDBPanel(LayoutManager arg0, boolean arg1) {
-		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
-	}
-
 }
