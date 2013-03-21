@@ -50,13 +50,13 @@ public class PersonPanel extends JPanel {
 	
 				
 				// which button?
-				if (e.getSource() == addButton)
+				if (e.getSource() == addButton){
 					streetField.setText("Add");
-					name = nameField;
-					street = streetField;
-					postno = postoField;
-					city = cityField;
-					
+					name = nameField.getText();
+					street = streetField.getText();
+					postno = postnoField.getText();
+					city = cityField.getText();
+				}
 				else if (e.getSource() == clearButton)
 			    	 streetField.setText("Clear");
 				
