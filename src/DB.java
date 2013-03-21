@@ -1,7 +1,7 @@
 import java.sql.*;
 public class DB {
 	private static Connection conn;
-	private static boolean connected;
+	//private static boolean connected;
 	private static DB instance = new DB();
 	
 	
@@ -14,10 +14,12 @@ public class DB {
 	} 
 	
 	private void open() {
+		//connected = false;
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conn = DriverManager
 					.getConnection("jdbc:sqlite:wera.sqlite");
+			//connected = true;
 
 		} catch (SQLException e) {
 			System.out.println("SQL error!");
