@@ -19,17 +19,24 @@ public class testDBUsage {
 				System.out.println(p);
 			}
 			
-			if(pers.add("Harry", "Gramsestad", "Räfsstad 20", 12034))
-				System.out.println("Added harry!");
-			else
-				System.out.println("Failed to add harry!");
-
+			Account a = accs.getAccountByAccountNo("121223");
+			System.out.println(a);
+			a.deposit(200);
+			System.out.println(a);
+			try {
+				a.withdraw(200);
+			} catch (Account.NotEnoughMineralsException e) {
+				System.out.println("Not enough minerals!");
+			}
 			
+						
 		} catch (NoSuchRowException e) {
 			System.out.println(e.getMessage());
 		
 		} catch (SQLException e) {
 			System.out.println("SQL error: " + e.getLocalizedMessage());
+			e.printStackTrace();
+		} catch (Account.BadAccountTypeException e) {
 			e.printStackTrace();
 		}
 		

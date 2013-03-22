@@ -121,7 +121,7 @@ public class Account {
 	 * @return New account balance 
 	 * @throws NotEnoughMineralsException on lack of funds
 	 */
-	public double withdrawal(double amount) throws NotEnoughMineralsException {
+	public double withdraw(double amount) throws NotEnoughMineralsException {
 		if(balance - amount < 0)
 			throw new NotEnoughMineralsException
 				("You don't have that much in the bank!");
