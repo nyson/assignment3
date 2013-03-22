@@ -16,33 +16,34 @@ import java.awt.event.*;
 import java.awt.*;
 
 /**
- * @author Magnus
+ * @author T66M
  *
  */
 public class DepositWithdrawalPanel extends JPanel {
 	
-	String name = "";
-	String street = "";
-	int postno = 0;
-	String city = "";
-	Person personToAdd = new Person(name, street, postno, city);
-
+	String account = "";
+	String amount = "";
+	Boolean withdraw = false;
+	//Setting withdrawl or deposit object
+	//Trans tracc = new Trans(account, amount);
+	
+	
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
-	JLabel nameLabel = new JLabel("Namn");
-	JLabel streetLabel = new JLabel("Gatuadress");
-	JLabel postnoLabel = new JLabel("Postnummer");
-	JLabel cityLabel = new JLabel("Stad");
-	JTextField nameField = new JTextField(10);
-	JTextField streetField = new JTextField(10);
-	JTextField postnoField = new JTextField(10);
-	JTextField cityField = new JTextField(10);
-	JLabel nameStatusLabel = new JLabel("Saknas");
-	JLabel streetStatusLabel = new JLabel("Saknas");
-	JLabel postnoStatusLabel = new JLabel("Saknas");
-	JLabel cityStatusLabel = new JLabel("Saknas");
-	JButton addButton = new JButton("Lägg till");
+	JLabel accountLabel = new JLabel("Account");
+	JLabel amountLabel = new JLabel("Amount");
+	JTextField accountField = new JTextField(10);
+	JTextField amountField = new JTextField(10);
+	JLabel accountStatusLabel = new JLabel("Saknas");
+	JLabel amountStatusLabel = new JLabel("Saknas");
+	JLabel hidden = new JLabel(" ");
+	JButton performButton = new JButton("Genomför");
 	JButton clearButton = new JButton("Rensa");
+	
+	ButtonGroup oper = new ButtonGroup();
+	private JRadioButton r1 = new JRadioButton("Deposit"),
+						r2 = new JRadioButton("Withdrawl", true);
+	
 	
 
 	// Reusable objects for design settings
@@ -53,17 +54,20 @@ public class DepositWithdrawalPanel extends JPanel {
 		ActionListener buttonListener = new ActionListener() {
 			// skapar inre klass (actionlistener är ett interface)
 			public void actionPerformed(ActionEvent e) {
-
+				//Radio Button Selected;
 				// which button was pressed?
-				if (e.getSource() == addButton){
-					name = nameField.getText();
-					street = streetField.getText();
-					postno = Integer.parseInt(postnoField.getText());
-					city = cityField.getText();
+				if (e.getSource() == performButton){
+					account = accountField.getText();
+					amount = amountField.getText();
+					if (r1.isSelected()) {
+						withdraw = false;
+					} else if (r2.isSelected()) {
+						withdraw = true;
 				}
-				else if (e.getSource() == clearButton)
-			    	 streetField.setText("Clear");
-				
+				} else if (e.getSource() == clearButton) {
+			    	 amountField.setText("Clear");
+					 accountField.setText("Clear");
+				}
 			} // end of inner class
 		}; // End of Listener for all buttons
 
@@ -75,22 +79,22 @@ public class DepositWithdrawalPanel extends JPanel {
 	// Set the start settings for all components
 		
 		// Attach ActionListeners
-		addButton.addActionListener(buttonListener);
+		performButton.addActionListener(buttonListener);
 		clearButton.addActionListener(buttonListener);
 		
 		// Design (border styles) 
-		nameLabel.setBorder(labelBorder);
-		streetLabel.setBorder(labelBorder);
-		postnoLabel.setBorder(labelBorder);
-		cityLabel.setBorder(labelBorder);
-		
+		accountLabel.setBorder(labelBorder);
+		amountLabel.setBorder(labelBorder);
+		//oper.setBorder(labelBorder);
+		oper.add(r1); oper.add(r2);
 		// Add components so the LayoutmManager can distribute them
-		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
-		add(nameLabel); add(nameField); add(nameStatusLabel);
-		add(streetLabel); add(streetField); add(streetStatusLabel);
-		add(postnoLabel); add(postnoField); add(postnoStatusLabel);
-		add(cityLabel); add(cityField); add(cityStatusLabel);
-		add(addButton);	add(clearButton);
+		setLayout(new GridLayout(4,3)); // Use flow strategy to place components
+		
+
+		add(accountLabel); add(accountField); add(accountStatusLabel);
+		add(amountLabel); add(amountField); add(amountStatusLabel);
+		add(hidden); add(performButton); add(clearButton); add(hidden);
+		add(r1); add(r2);
 		
 		// Give this pane a border with a title
 		setBorder(new TitledBorder("Insättning/uttag"));
@@ -107,3 +111,7 @@ public class DepositWithdrawalPanel extends JPanel {
 		return buttonListener;
 	}
 }
+
+/* Det du får in här är "account", "amount" och withdraw
+ * withdraw är en boolean som skall visa om det är insättning eller uttag
+ */
