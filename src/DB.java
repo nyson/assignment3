@@ -1,4 +1,12 @@
 import java.sql.*;
+
+/**
+ * Singleton for handling our DB connection
+ * @author Jonathan Skårstedt
+ * @author Oskar Linder Pålsgård
+ * @author Magnus Duberg
+ *
+ */
 public class DB {
 	private static Connection conn;
 	private static boolean connected;
@@ -12,6 +20,10 @@ public class DB {
 	public static DB getInstance(){
 		return instance;		
 	} 
+	
+	public static Connection getConnection(){
+		return conn;		
+	};
 	
 	private void open() {
 		try {
@@ -32,4 +44,5 @@ public class DB {
 	public Statement getStatement() throws SQLException{
 		return conn.createStatement();
 	}
+	
 }

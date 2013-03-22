@@ -7,13 +7,15 @@ public class testDBUsage {
 		Persons pers = new Persons();
 		
 		try {
-			ArrayList<Person> everyhopa = pers.getPersons();
-			for(Person p: everyhopa) {
-				System.out.println(p);
-			}
+			System.out.println(pers.getPersonByName("Sylvester"));
+			System.out.println(pers.getPersonByName("Yosemite Hitler"));
+
+		} catch (NoSuchRowException e) {
+			System.out.println(e.getMessage());
+		
 		} catch (SQLException e) {
-			System.out.println("SQL error: ");
-			e.getStackTrace();
+			System.out.println("SQL error: " + e.getLocalizedMessage());
+			e.printStackTrace();
 		}
 		
 	}
