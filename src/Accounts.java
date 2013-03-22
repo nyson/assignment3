@@ -4,6 +4,16 @@ import java.sql.*;
 
 
 public class Accounts {
+	/**
+	 * Adds a new account to the database
+	 * 
+	 * @param holder Holder of the account, needs to already be in the database
+	 * @param number Account number
+	 * @param balance Account balance
+	 * @param type Account type
+	 * @return true on success
+	 * @throws SQLException
+	 */
 	public boolean add(String holder, String number, double balance, 
 			Account.Type type) throws SQLException{
 		

@@ -27,7 +27,10 @@ public class testDBUsage {
 				a.withdraw(200);
 			} catch (Account.NotEnoughMineralsException e) {
 				System.out.println("Not enough minerals!");
+			} finally {
+				System.out.println(a);
 			}
+			
 			
 						
 		} catch (NoSuchRowException e) {
