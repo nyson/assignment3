@@ -24,7 +24,7 @@ public class Person {
 				+ "stad=? " 
 			+ "WHERE name=?"; 
 		
-		PreparedStatement push = DB.getConnection().prepareStatement(query);
+		PreparedStatement push = DB.prepareStatement(query);
 		push.setString(1, name);
 		push.setString(2, addr);
 		push.setInt(3, zip);
@@ -37,9 +37,13 @@ public class Person {
 		return updated > 0;
 	}
 	
-	public String toString(){
-		return "Name: " + name + "\n\tAdress: " + addr 
-				+ "\n\tPostNr: " + zip + "\n\tCity: " + city;
+	public static String toStringHeader(){
+		String format = "%-15s | %35s | %20s | %5s ";
 		
+		return String.format(format, "Name", "Address", "City", "Zip");
+	}
+	public String toString(){
+		String format = "%-15s | %35s | %20s | %5s ";
+		return String.format(format, name, addr, city, zip);
 	}
 }

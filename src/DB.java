@@ -21,9 +21,11 @@ public class DB {
 		return instance;		
 	} 
 	
-	public static Connection getConnection(){
-		return conn;		
-	};
+	
+	public static PreparedStatement prepareStatement(String query) 
+			throws SQLException{
+		return conn.prepareStatement(query);		
+	}
 	
 	private void open() {
 		try {
