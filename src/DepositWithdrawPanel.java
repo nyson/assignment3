@@ -19,7 +19,7 @@ import java.awt.*;
  * @author T66M
  *
  */
-public class DepositWithdrawalPanel extends JPanel {
+public class DepositWithdrawPanel extends JPanel {
 	
 	String account = "";
 	String amount = "";
@@ -75,7 +75,7 @@ public class DepositWithdrawalPanel extends JPanel {
 	/**
 	 * The panel where you can add new persons to the database
 	 */
-	public DepositWithdrawalPanel() {
+	public DepositWithdrawPanel() {
 	// Set the start settings for all components
 		
 		// Attach ActionListeners
@@ -97,7 +97,7 @@ public class DepositWithdrawalPanel extends JPanel {
 		add(r1); add(r2);
 		
 		// Give this pane a border with a title
-		setBorder(new TitledBorder("Insättning/uttag"));
+		setBorder(new TitledBorder("Lägg till ny insättning/uttag"));
 		//setMaximumSize(panelSize);
 		setVisible(false); // Start hidden
 		

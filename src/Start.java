@@ -20,7 +20,7 @@ public class Start extends JFrame {
 	JMenuItem connectDBMenuItem = new JMenuItem("Anslut databas");
 	JMenuItem newPersonMenuItem = new JMenuItem("Ny kontoinnehavare");
 	JMenuItem newAccountMenuItem = new JMenuItem("Nytt konto");
-	JMenuItem depositWithdrawalMenuItem = new JMenuItem("Insättning/Uttag");
+	JMenuItem depositWithdrawMenuItem = new JMenuItem("Insättning/Uttag");
 	JMenuItem transferMenuItem = new JMenuItem("Överföring");
 	JMenuItem statementMenuItem = new JMenuItem("Kontoutdrag");
 	JMenuItem aboutMenuItem = new JMenuItem("Om");
@@ -32,8 +32,12 @@ public class Start extends JFrame {
 	//Panels
 	ConnectDBPanel connectDBPanel = new ConnectDBPanel();
 	PersonPanel personPanel = new PersonPanel();
-	DepositWithdrawalPanel dWP = new DepositWithdrawalPanel();
+	AccountPanel accountPanel = new AccountPanel();
+	DepositWithdrawPanel depositWithdrawPanel = new DepositWithdrawPanel();
 	TransferPanel transferPanel = new TransferPanel();
+	StatementPanel statementPanel = new StatementPanel();
+	 
+	
 	// This sets the active panel at start !!!
 	JPanel activePanel = connectDBPanel; // the Connect to database panel
 	
@@ -57,14 +61,25 @@ public class Start extends JFrame {
 
 			testTextField.setText(e.getSource().toString());
 			// select a new panel?
-			if (e.getSource() == newPersonMenuItem)
-				activePanel = personPanel;
-			else if (e.getSource() == connectDBMenuItem)
+			if (e.getSource() == connectDBMenuItem)
 		    	 activePanel = connectDBPanel;
-			else if (e.getSource() == depositWithdrawalMenuItem)
-				activePanel = dWP;
+			else if (e.getSource() == newPersonMenuItem)
+				activePanel = personPanel;
+			else if (e.getSource() == newAccountMenuItem)
+				activePanel = accountPanel;
+			else if (e.getSource() == depositWithdrawMenuItem)
+				activePanel = depositWithdrawPanel;
 			else if (e.getSource() == transferMenuItem)
 				activePanel = transferPanel;
+			else if (e.getSource() == statementMenuItem)
+				activePanel = statementPanel;
+			else if (e.getSource() == aboutMenuItem){
+				String aboutMessage = "Denna kan bytas sen till en hur" +
+						" fflasshig som helst.\n\n Skapad av:\n" +
+						" Jonatha\n Oskar\n Magnus";
+				JOptionPane.showMessageDialog(rootPane, aboutMessage, "Om" +
+						" Weras betalservice", JOptionPane.INFORMATION_MESSAGE);
+			}
 			
 			activePanel.setVisible(true);	// show the selected panel
 		} // end of inner class
@@ -111,7 +126,7 @@ public class Start extends JFrame {
 		connectDBMenuItem.addActionListener(buttonListener);
 		newPersonMenuItem.addActionListener(buttonListener);
 		newAccountMenuItem.addActionListener(buttonListener);
-		depositWithdrawalMenuItem.addActionListener(buttonListener);
+		depositWithdrawMenuItem.addActionListener(buttonListener);
 		transferMenuItem.addActionListener(buttonListener);
 		statementMenuItem.addActionListener(buttonListener);
 		aboutMenuItem.addActionListener(buttonListener);
@@ -128,7 +143,7 @@ public class Start extends JFrame {
 		fileMenu.add(connectDBMenuItem);
 		registerMenu.add(newPersonMenuItem);
 		registerMenu.add(newAccountMenuItem);
-		manageAccountsMenu.add(depositWithdrawalMenuItem);
+		manageAccountsMenu.add(depositWithdrawMenuItem);
 		manageAccountsMenu.add(transferMenuItem);
 		manageAccountsMenu.add(statementMenuItem);
 		helpMenu.add(aboutMenuItem);
@@ -140,10 +155,12 @@ public class Start extends JFrame {
 		
 		// Add panels, buttons and so on..
 		// Spacer
-		add(new Box.Filler(new Dimension(200,20), new Dimension(200,20),
+		add(new Box.Filler(new Dimension(450,20), new Dimension(450,20),
 				new Dimension(200,20))); 
 		// Add panels
-		add(connectDBPanel);add(personPanel);add(dWP);add(transferPanel);
+		add(connectDBPanel);add(personPanel);add(accountPanel);
+		add(depositWithdrawPanel);add(transferPanel);add(statementPanel);
+		
 		// Spacer
 		add(new Box.Filler(new Dimension(450,20), new Dimension(450,20),
 				new Dimension(450,20))); 
