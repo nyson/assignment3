@@ -33,6 +33,7 @@ public class Start extends JFrame {
 	ConnectDBPanel connectDBPanel = new ConnectDBPanel();
 	PersonPanel personPanel = new PersonPanel();
 	DepositWithdrawalPanel dWP = new DepositWithdrawalPanel();
+	TransferPanel transferPanel = new TransferPanel();
 	// This sets the active panel at start !!!
 	JPanel activePanel = connectDBPanel; // the Connect to database panel
 	
@@ -62,6 +63,8 @@ public class Start extends JFrame {
 		    	 activePanel = connectDBPanel;
 			else if (e.getSource() == depositWithdrawalMenuItem)
 				activePanel = dWP;
+			else if (e.getSource() == transferMenuItem)
+				activePanel = transferPanel;
 			
 			activePanel.setVisible(true);	// show the selected panel
 		} // end of inner class
@@ -140,7 +143,7 @@ public class Start extends JFrame {
 		add(new Box.Filler(new Dimension(200,20), new Dimension(200,20),
 				new Dimension(200,20))); 
 		// Add panels
-		add(connectDBPanel);add(personPanel);add(dWP);
+		add(connectDBPanel);add(personPanel);add(dWP);add(transferPanel);
 		// Spacer
 		add(new Box.Filler(new Dimension(450,20), new Dimension(450,20),
 				new Dimension(450,20))); 
