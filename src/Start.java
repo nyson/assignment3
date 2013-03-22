@@ -108,10 +108,9 @@ public class Start extends JFrame {
 		transferMenuItem.addActionListener(buttonListener);
 		statementMenuItem.addActionListener(buttonListener);
 		aboutMenuItem.addActionListener(buttonListener);
-
-		setTitle("Weras betalservice");
-		setPreferredSize(windowSize);pack(); // Window size
-		setLayout(new FlowLayout()); // Use flow/grid/box strategy to place components
+		// Connect action listeners to the sub panels
+    	personPanel.addButton.addActionListener(personAddButtonListener);
+    	connectDBPanel.addButton.addActionListener(personAddButtonListener);
 		
 		// Add menus
 		menuBar.add(fileMenu); 
@@ -128,31 +127,19 @@ public class Start extends JFrame {
 		helpMenu.add(aboutMenuItem);
 		setJMenuBar(menuBar);
 		
-		
+		setTitle("Weras betalservice");
+		setPreferredSize(windowSize);pack(); // Window size
+		setLayout(new FlowLayout()); // Use flow/grid/box strategy to place components
+		// Add panels, buttons and so on..
 		add(new Box.Filler(new Dimension(200,20), new Dimension(200,20),
-				new Dimension(200,20))); // Spacing
-
-		// Add panels that we then can choose from
-		add(connectDBPanel);		 
-    	add(personPanel);
-		// Connect action listeners to the sub panels
-    	personPanel.addButton.addActionListener(personAddButtonListener);
-    	connectDBPanel.addButton.addActionListener(personAddButtonListener);
-    	    	
+				new Dimension(200,20))); // Spacer
+		add(connectDBPanel);add(personPanel);
 		add(new Box.Filler(new Dimension(450,20), new Dimension(450,20),
-				new Dimension(450,20))); // Spacing
-
-/*TEST*/
-		// Test field    	
-		add(testLabel);add(testTextField);
-/* TEST */
-    	
-    	// Show the active panel and the the main window
-    	activePanel.setVisible(true); 
+				new Dimension(450,20))); // Spacer
+/*TEST*/add(testLabel);add(testTextField); // Test field  
+    	activePanel.setVisible(true); // Show the active panel
     	//pack(); 
-	
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-				
 	}
 
 	/**
