@@ -9,7 +9,7 @@ import java.sql.*;
  */
 public class DB {
 	private static Connection conn;
-	private static boolean connected;
+	//private static boolean connected;
 	private static DB instance = new DB();
 	
 	

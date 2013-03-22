@@ -1,3 +1,14 @@
+/* READ THIS !!
+ * All this file does is
+ * A: Being a CPanel WITHIN the main CFrame i.e. Start.java
+ * B: Handles the input from the user, filling a form
+ * C: Saving the values in some variables on the press of a button
+ * When that button is pressed Start.java 
+ * 		1. reads these values
+ * 		2. querys the Bank object
+ * 		3. and returns an answer to this CPanel
+ * D: Displays the answer to the user (and clears the form)
+ */
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -11,6 +22,7 @@ import java.awt.*;
  */
 public class ConnectDBPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
 	JLabel choiceLabel = new JLabel("Namn");
 	JTextField choiceField = new JTextField(10);
@@ -22,10 +34,28 @@ public class ConnectDBPanel extends JPanel {
 	Dimension panelSize = new Dimension(300,100);
 	
 	/**
-	 * Show the display where you can add persons to tha database
+	 *  Listeners
+	 */
+	ActionListener buttonListener = new ActionListener() {
+		// Creates an inner class
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == clearButton){
+				choiceField.setText("");
+			}
+		} // end of inner class
+	}; // End of buttonListener
+
+	
+	
+	/**Constructor
+	 * The panel where you can add persons to the database
 	 */
 	public ConnectDBPanel() {
-
+		
+		// Attach Listeners
+		addButton.addActionListener(buttonListener);
+		clearButton.addActionListener(buttonListener);
+		
 		// Design issues
 		choiceLabel.setBorder(new EtchedBorder());
 		
@@ -40,30 +70,4 @@ public class ConnectDBPanel extends JPanel {
 		setVisible(false); // Start hidden
 		
 	}
-
-	/**
-	 * @param arg0
-	 */
-	public ConnectDBPanel(LayoutManager arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param arg0
-	 */
-	public ConnectDBPanel(boolean arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param arg0
-	 * @param arg1
-	 */
-	public ConnectDBPanel(LayoutManager arg0, boolean arg1) {
-		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
-	}
-
 }

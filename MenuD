@@ -1,0 +1,45 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class MenuD extends JFrame implements ActionListener {
+  private JLabel headName = new JLabel("Wera", JLabel.RIGHT);
+	private JRadioButton r1 = new JRadioButton("Windows"),
+						r2 = new JRadioButton("Mac"),
+						r3 = new JRadioButton("Ubuntu");
+	private JTextField txt = new JTextField(16);
+	
+	public MenuD() {
+		setLayout(new FlowLayout());
+		add(headName);
+		headName.setOpaque(true);
+		headName.setVisible(false);
+		add(txt);
+		
+		add(r1); add(r2); add(r3);
+		ButtonGroup oper = new ButtonGroup();
+		oper.add(r1); oper.add(r2); oper.add(r3);
+		r1.addActionListener(this);
+		r2.addActionListener(this);
+		r3.addActionListener(this);
+		setSize(350, 155);
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+	}
+	public void actionPerformed(ActionEvent e) {
+		Object b = e.getSource();
+		if (b == r1) {
+			txt.setText("OMGWTFBBQ!!!!!");
+			headName.setVisible(false);
+		} else if (b == r2) {
+			txt.setText("NOOOOOOO!");
+			headName.setVisible(true);
+		} else if (b == r3) {
+			txt.setText("Awesome");
+		}
+	}
+	public static void main (String[] arg) {
+		MenuD e1 = new MenuD();
+	}
+}
