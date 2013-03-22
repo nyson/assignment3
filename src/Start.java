@@ -32,9 +32,11 @@ public class Start extends JFrame {
 	//Panels
 	ConnectDBPanel connectDBPanel = new ConnectDBPanel();
 	PersonPanel personPanel = new PersonPanel();
-	
+	DepositWithdrawalPanel dWP = new DepositWithdrawalPanel();
 	// This sets the active panel at start !!!
 	JPanel activePanel = connectDBPanel; // the Connect to database panel
+	
+	
 	
 	// Settings that can be reused
 	Dimension windowSize = new Dimension(500, 350);
@@ -58,6 +60,8 @@ public class Start extends JFrame {
 				activePanel = personPanel;
 			else if (e.getSource() == connectDBMenuItem)
 		    	 activePanel = connectDBPanel;
+			else if (e.getSource() == depositWithdrawalMenuItem)
+				activePanel = dWP;
 			
 			activePanel.setVisible(true);	// show the selected panel
 		} // end of inner class
@@ -130,12 +134,16 @@ public class Start extends JFrame {
 		setTitle("Weras betalservice");
 		setPreferredSize(windowSize);pack(); // Window size
 		setLayout(new FlowLayout()); // Use flow/grid/box strategy to place components
+		
 		// Add panels, buttons and so on..
+		// Spacer
 		add(new Box.Filler(new Dimension(200,20), new Dimension(200,20),
-				new Dimension(200,20))); // Spacer
-		add(connectDBPanel);add(personPanel);
+				new Dimension(200,20))); 
+		// Add panels
+		add(connectDBPanel);add(personPanel);add(dWP);
+		// Spacer
 		add(new Box.Filler(new Dimension(450,20), new Dimension(450,20),
-				new Dimension(450,20))); // Spacer
+				new Dimension(450,20))); 
 /*TEST*/add(testLabel);add(testTextField); // Test field  
     	activePanel.setVisible(true); // Show the active panel
     	//pack(); 
