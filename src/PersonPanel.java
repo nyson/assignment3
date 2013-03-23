@@ -100,10 +100,10 @@ public class PersonPanel extends JPanel {
 	}
 
 	/**
-	 * Gives the user some feed back
-	 * @param answer
+	 * Returns this panels actionlistener
+	 * @return
 	 */
-	void handleAnswer(String answer){
-		JOptionPane.showMessageDialog(getParent(), answer);
+	ActionListener getActionListener(){
+		return buttonListener;
 	}
 }
