@@ -100,10 +100,10 @@ public class TransferPanel extends JPanel {
 	}
 
 	/**
-	 * Returns this panels actionlistener
-	 * @return
+	 * Gives the user some feed back
+	 * @param answer
 	 */
-	ActionListener getActionListener(){
-		return buttonListener;
+	void handleAnswer(String answer){
+		JOptionPane.showMessageDialog(getParent(), answer);
 	}
 }
