@@ -118,19 +118,36 @@ public class Start extends JFrame {
 	 */
 	public Start() {
 		
-	// Removes the java look and feel for buttons etc. 
-		try { 
+		// Set main window settings
+		setTitle("Weras betalservice");
+		setPreferredSize(windowSize);pack(); // Window size
+		setLayout(new FlowLayout()); // Use flow/grid/box strategy to place components
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		try { // Removes the java look and feel for buttons etc.
 			// Nimbus
 			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus" +
 			//		".NimbusLookAndFeel");
 			// Windows
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows" +
 					".WindowsLookAndFeel");			
-			
 			SwingUtilities.updateComponentTreeUI(this);
 		}catch(Exception ex){}
 
-	// Set the start settings for all components
+		// Add menus
+		menuBar.add(fileMenu); 
+		menuBar.add(registerMenu);
+		menuBar.add(manageAccountsMenu);
+		// menuBar.setHelpMenu(helpMenu); // JAVA: not yet implemented
+		menuBar.add(helpMenu);
+		fileMenu.add(connectDBMenuItem);
+		registerMenu.add(newPersonMenuItem);
+		registerMenu.add(newAccountMenuItem);
+		manageAccountsMenu.add(depositWithdrawMenuItem);
+		manageAccountsMenu.add(transferMenuItem);
+		manageAccountsMenu.add(statementMenuItem);
+		helpMenu.add(aboutMenuItem);
+		setJMenuBar(menuBar);
+
 		// Connect the buttons to the buttonListener
 		connectDBMenuItem.addActionListener(startActionListener);
 		newPersonMenuItem.addActionListener(startActionListener);
@@ -147,43 +164,26 @@ public class Start extends JFrame {
     	depositWithdrawPanel.performButton.addActionListener(panelActionListener);
     	transferPanel.addButton.addActionListener(panelActionListener);
     	statementPanel.showStatementButton.addActionListener(panelActionListener);
-		
-		// Add menus
-		menuBar.add(fileMenu); 
-		menuBar.add(registerMenu);
-		menuBar.add(manageAccountsMenu);
-		// menuBar.setHelpMenu(helpMenu); // JAVA: not yet implemented
-		menuBar.add(helpMenu);
-		fileMenu.add(connectDBMenuItem);
-		registerMenu.add(newPersonMenuItem);
-		registerMenu.add(newAccountMenuItem);
-		manageAccountsMenu.add(depositWithdrawMenuItem);
-		manageAccountsMenu.add(transferMenuItem);
-		manageAccountsMenu.add(statementMenuItem);
-		helpMenu.add(aboutMenuItem);
-		setJMenuBar(menuBar);
-		
-		setTitle("Weras betalservice");
-		setPreferredSize(windowSize);pack(); // Window size
-		setLayout(new FlowLayout()); // Use flow/grid/box strategy to place components
-		
+				
 		// Add panels, buttons and so on..
-		// Spacer
+		// A spacer before the active panel
 		add(new Box.Filler(new Dimension(450,20), new Dimension(450,20),
 				new Dimension(200,20))); 
-		// Add panels
+		// Add the panels
 		add(connectDBPanel);add(personPanel);add(accountPanel);
 		add(depositWithdrawPanel);add(transferPanel);add(statementPanel);
-		
-		// Spacer
+		// A spacer after before the active panel
 		add(new Box.Filler(new Dimension(450,20), new Dimension(450,20),
 				new Dimension(450,20))); 
-/*TEST*/add(testLabel);add(testTextField); // Test field  
-    	activePanel.setVisible(true); // Show the active panel
-    	//pack(); 
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+/*TEST CODE*/add(testLabel);add(testTextField); // Test field  
+
+		// we prefer NOT to pack(); here
+		// Show the active panel
+		activePanel.setVisible(true);  
 	}
 
+	
 	/**
 	 * main method (since we start this file from the OS)
 	 * Envokes our Start-class 
