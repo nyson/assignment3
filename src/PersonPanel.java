@@ -19,7 +19,7 @@ import java.awt.*;
  * @author Magnus
  *
  */
-public class PersonPanel extends JPanel {
+public class PersonPanel extends WeraPanel {
 	
 	String name = "";
 	String street = "";

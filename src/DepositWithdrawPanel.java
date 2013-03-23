@@ -19,7 +19,7 @@ import java.awt.*;
  * @author T66M
  *
  */
-public class DepositWithdrawPanel extends JPanel {
+public class DepositWithdrawPanel extends WeraPanel {
 	
 	String account = "";
 	String amount = "";

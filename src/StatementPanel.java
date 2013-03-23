@@ -19,7 +19,7 @@ import java.awt.*;
  * @author Magnus
  *
  */
-public class StatementPanel extends JPanel {
+public class StatementPanel extends WeraPanel {
 	private static final long serialVersionUID = 1L; // just to shut eclipse up
 	
 	// Variables

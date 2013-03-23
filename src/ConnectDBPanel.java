@@ -20,7 +20,7 @@ import java.awt.*;
  * @author Magnus
  *
  */
-public class ConnectDBPanel extends JPanel {
+public class ConnectDBPanel extends WeraPanel {
 
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
@@ -70,4 +70,13 @@ public class ConnectDBPanel extends JPanel {
 		setVisible(false); // Start hidden
 		
 	}
+	
+	/**
+	 * Gives the user some feed back
+	 * @param answer
+	 */
+	void handleAnswer(String answer){
+		JOptionPane.showMessageDialog(getParent(), answer);
+	}
+
 }

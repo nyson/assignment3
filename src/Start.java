@@ -38,12 +38,12 @@ public class Start extends JFrame {
 	StatementPanel statementPanel = new StatementPanel();
 	 
 	// This sets the active panel at start !!!
-	JPanel activePanel = connectDBPanel; // the Connect to database panel
+	WeraPanel activePanel = connectDBPanel; // the Connect to database panel
 	
 	/**
 	 *  Listener for all buttons (and menus which are buttons)
 	 */
-	ActionListener buttonListener = new ActionListener() {
+	ActionListener startActionListener = new ActionListener() {
 		// Creates an inner class
 		public void actionPerformed(ActionEvent e) {
 
@@ -77,26 +77,44 @@ public class Start extends JFrame {
 	/**
 	 * Listener for the add button in personPanel
 	 */ 
- 	ActionListener personAddButtonListener = new ActionListener() {
+ 	ActionListener panelActionListener = new ActionListener() {
  		public void actionPerformed(ActionEvent e) {
- 			String queryString = personPanel.name + ";" +
+ 			String queryString = "queryString not collected";
+ 			
+ 			if  (e.getSource() == connectDBPanel.addButton){
+ 				
+ 			}
+ 			
+ 			if  (e.getSource() == personPanel.addButton){
+					queryString = personPanel.name + ";" +
 							  personPanel.street + ";" +
 							  personPanel.postno + ";" +
 							  personPanel.city;
-
- 			personPanel.handleAnswer(queryBank(queryString));
+ 			}
+ 			if  (e.getSource() == accountPanel.addButton){
+ 				
+ 			}
+ 			if  (e.getSource() == depositWithdrawPanel.performButton){
+ 				
+ 			}
+ 			if  (e.getSource() == transferPanel.addButton){
+ 				
+ 			}
+ 			if  (e.getSource() == statementPanel.showStatementButton){
+ 				
+ 			}
+ 		 			
+ 			activePanel.handleAnswer(queryBank(queryString));
  		} // end of inner class
  	}; // end of Listener for add button in personPanel
 
-	// Other claas wide settings that can be reused
+	// Other class wide settings that can be reused
 	Dimension windowSize = new Dimension(500, 350);
 	Dimension panelSize = new Dimension(300,100);
 	
 
 	/**
-	 * Constructor. This must be called in order to be created
-	 * If this file is started from os it has contain a main()-method
-	 * so that this constructor can be activated
+	 * Constructor of Start.java
 	 */
 	public Start() {
 		
@@ -114,16 +132,21 @@ public class Start extends JFrame {
 
 	// Set the start settings for all components
 		// Connect the buttons to the buttonListener
-		connectDBMenuItem.addActionListener(buttonListener);
-		newPersonMenuItem.addActionListener(buttonListener);
-		newAccountMenuItem.addActionListener(buttonListener);
-		depositWithdrawMenuItem.addActionListener(buttonListener);
-		transferMenuItem.addActionListener(buttonListener);
-		statementMenuItem.addActionListener(buttonListener);
-		aboutMenuItem.addActionListener(buttonListener);
+		connectDBMenuItem.addActionListener(startActionListener);
+		newPersonMenuItem.addActionListener(startActionListener);
+		newAccountMenuItem.addActionListener(startActionListener);
+		depositWithdrawMenuItem.addActionListener(startActionListener);
+		transferMenuItem.addActionListener(startActionListener);
+		statementMenuItem.addActionListener(startActionListener);
+		aboutMenuItem.addActionListener(startActionListener);
+		
 		// Connect action listeners to the sub panels
-    	personPanel.addButton.addActionListener(personAddButtonListener);
-    	connectDBPanel.addButton.addActionListener(personAddButtonListener);
+    	connectDBPanel.addButton.addActionListener(panelActionListener);
+    	personPanel.addButton.addActionListener(panelActionListener);
+    	accountPanel.addButton.addActionListener(panelActionListener);
+    	depositWithdrawPanel.performButton.addActionListener(panelActionListener);
+    	transferPanel.addButton.addActionListener(panelActionListener);
+    	statementPanel.showStatementButton.addActionListener(panelActionListener);
 		
 		// Add menus
 		menuBar.add(fileMenu); 
