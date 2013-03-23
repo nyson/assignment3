@@ -21,25 +21,25 @@ import java.awt.*;
  */
 public class AccountPanel extends JPanel {
 	
-	String name = "";
-	String street = "";
-	int postno = 0;
-	String city = "";
+	String name = "Test Person";
+	String street = "Test gata";
+	int postno = 1234;
+	String city = "Testaden";
 	Person personToAdd = new Person(name, street, postno, city);
 
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
 	JLabel nameLabel = new JLabel("Namn");
 	JLabel streetLabel = new JLabel("Gatuadress");
-	JLabel postnoLabel = new JLabel("Postnummer");
+	JLabel zipLabel = new JLabel("Postnummer");
 	JLabel cityLabel = new JLabel("Stad");
 	JTextField nameField = new JTextField(10);
 	JTextField streetField = new JTextField(10);
-	JTextField postnoField = new JTextField(10);
+	JTextField zipField = new JTextField(10);
 	JTextField cityField = new JTextField(10);
 	JLabel nameStatusLabel = new JLabel("Saknas");
 	JLabel streetStatusLabel = new JLabel("Saknas");
-	JLabel postnoStatusLabel = new JLabel("Saknas");
+	JLabel zipStatusLabel = new JLabel("Saknas");
 	JLabel cityStatusLabel = new JLabel("Saknas");
 	JButton addButton = new JButton("Lägg till");
 	JButton clearButton = new JButton("Rensa");
@@ -55,11 +55,10 @@ public class AccountPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				// which button was pressed?
+				// check that right values are inserted
 				if (e.getSource() == addButton){
-					name = nameField.getText();
-					street = streetField.getText();
-					postno = Integer.parseInt(postnoField.getText());
-					city = cityField.getText();
+					// Check user input
+					checkUserInput();
 				}
 				else if (e.getSource() == clearButton)
 			    	 streetField.setText("Clear");
@@ -81,14 +80,14 @@ public class AccountPanel extends JPanel {
 		// Design (border styles) 
 		nameLabel.setBorder(labelBorder);
 		streetLabel.setBorder(labelBorder);
-		postnoLabel.setBorder(labelBorder);
+		zipLabel.setBorder(labelBorder);
 		cityLabel.setBorder(labelBorder);
 		
 		// Add components so the LayoutmManager can distribute them
 		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
 		add(nameLabel); add(nameField); add(nameStatusLabel);
 		add(streetLabel); add(streetField); add(streetStatusLabel);
-		add(postnoLabel); add(postnoField); add(postnoStatusLabel);
+		add(zipLabel); add(zipField); add(zipStatusLabel);
 		add(cityLabel); add(cityField); add(cityStatusLabel);
 		add(addButton);	add(clearButton);
 		
@@ -100,10 +99,24 @@ public class AccountPanel extends JPanel {
 	}
 
 	/**
-	 * Returns this panels actionlistener
-	 * @return
+	 * checks user input
 	 */
-	ActionListener getActionListener(){
-		return buttonListener;
+	void checkUserInput(){
+		if (nameField.getText() == "")
+			nameStatusLabel.setText("obligatoriskt");
+		if (streetField.getText() == "")
+			nameStatusLabel.setText("obligatoriskt");
+		if (zipField.getText() == "")
+			nameStatusLabel.setText("obligatoriskt");
+		if (cityField.getText() == "")
+			nameStatusLabel.setText("obligatoriskt");
 	}
+	/**
+	 * Gives the user some feed back
+	 * @param answer
+	 */
+	void handleAnswer(String answer){
+		JOptionPane.showMessageDialog(getParent(), answer);
+	}
+
 }

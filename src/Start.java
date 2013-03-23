@@ -13,17 +13,17 @@ public class Start extends JFrame {
 	// Graphical elements to be used
 	//Menus
 	JMenuBar menuBar = new JMenuBar();
-	JMenu fileMenu = new JMenu("Arkiv");
-	JMenu registerMenu = new JMenu("Registerhantering");
-	JMenu manageAccountsMenu = new JMenu("Kontohantering");
-	JMenu helpMenu = new JMenu("Hjälp");
-	JMenuItem connectDBMenuItem = new JMenuItem("Anslut databas");
-	JMenuItem newPersonMenuItem = new JMenuItem("Ny kontoinnehavare");
-	JMenuItem newAccountMenuItem = new JMenuItem("Nytt konto");
-	JMenuItem depositWithdrawMenuItem = new JMenuItem("Insättning/Uttag");
-	JMenuItem transferMenuItem = new JMenuItem("Överföring");
-	JMenuItem statementMenuItem = new JMenuItem("Kontoutdrag");
-	JMenuItem aboutMenuItem = new JMenuItem("Om");
+	JMenu fileMenu = new JMenu("Arkiv"),
+		registerMenu = new JMenu("Registerhantering"),
+		manageAccountsMenu = new JMenu("Kontohantering"),
+		helpMenu = new JMenu("Hjälp");
+	JMenuItem connectDBMenuItem = new JMenuItem("Anslut databas"),
+		newPersonMenuItem = new JMenuItem("Ny kontoinnehavare"),
+		newAccountMenuItem = new JMenuItem("Nytt konto"),
+		depositWithdrawMenuItem = new JMenuItem("Insättning/Uttag"),
+		transferMenuItem = new JMenuItem("Överföring"),
+		statementMenuItem = new JMenuItem("Kontoutdrag"),
+		aboutMenuItem = new JMenuItem("Om");
 	
 	//Test code
 	JLabel testLabel = new JLabel("Testfield (lies in Start panel)");
@@ -37,18 +37,8 @@ public class Start extends JFrame {
 	TransferPanel transferPanel = new TransferPanel();
 	StatementPanel statementPanel = new StatementPanel();
 	 
-	
 	// This sets the active panel at start !!!
 	JPanel activePanel = connectDBPanel; // the Connect to database panel
-	
-	
-	
-	// Settings that can be reused
-	Dimension windowSize = new Dimension(500, 350);
-	Dimension panelSize = new Dimension(300,100);
-	
-	// Listener for personPanel 
-	// ActionListener personPanelListener = personPanel.getListeners(listenerType);
 	
 	/**
 	 *  Listener for all buttons (and menus which are buttons)
@@ -79,28 +69,29 @@ public class Start extends JFrame {
 						" Jonatha\n Oskar\n Magnus";
 				JOptionPane.showMessageDialog(rootPane, aboutMessage, "Om" +
 						" Weras betalservice", JOptionPane.INFORMATION_MESSAGE);
-			}
-			
+			}// end of if() statement			
 			activePanel.setVisible(true);	// show the selected panel
 		} // end of inner class
 	}; // End of Listener for all buttons
 	
-	
-	
 	/**
 	 * Listener for the add button in personPanel
 	 */ 
-	 	ActionListener personAddButtonListener = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			String queryString = personPanel.name + ";" +
-								  personPanel.street + ";" +
-								  personPanel.postno + ";" +
-								  personPanel.city;
-			System.out.print(queryBank(queryString));
-	} // end of inner class
-}; // End of Listener for all buttons
+ 	ActionListener personAddButtonListener = new ActionListener() {
+ 		public void actionPerformed(ActionEvent e) {
+ 			String queryString = personPanel.name + ";" +
+							  personPanel.street + ";" +
+							  personPanel.postno + ";" +
+							  personPanel.city;
 
+ 			personPanel.handleAnswer(queryBank(queryString));
+ 		} // end of inner class
+ 	}; // end of Listener for add button in personPanel
 
+	// Other claas wide settings that can be reused
+	Dimension windowSize = new Dimension(500, 350);
+	Dimension panelSize = new Dimension(300,100);
+	
 
 	/**
 	 * Constructor. This must be called in order to be created
@@ -192,10 +183,6 @@ public class Start extends JFrame {
 		return answer;
 	}
 	
-	void testMethod(){
-		System.out.println("anropat från sub pane");
-	}
-	
-	
+
 	
 }
