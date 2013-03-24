@@ -19,7 +19,7 @@ import java.awt.*;
  * @author T66M
  *
  */
-public class DepositWithdrawPanel extends JPanel {
+public class DepositWithdrawPanel extends WeraPanel {
 	
 	String account = "";
 	String amount = "";
@@ -104,11 +104,11 @@ public class DepositWithdrawPanel extends JPanel {
 	}
 
 	/**
-	 * Returns this panels actionlistener
-	 * @return
+	 * Gives the user some feed back
+	 * @param answer
 	 */
-	ActionListener getActionListener(){
-		return buttonListener;
+	void handleAnswer(String answer){
+		JOptionPane.showMessageDialog(getParent(), answer);
 	}
 }
 

@@ -13,17 +13,17 @@ public class Start extends JFrame {
 	// Graphical elements to be used
 	//Menus
 	JMenuBar menuBar = new JMenuBar();
-	JMenu fileMenu = new JMenu("Arkiv");
-	JMenu registerMenu = new JMenu("Registerhantering");
-	JMenu manageAccountsMenu = new JMenu("Kontohantering");
-	JMenu helpMenu = new JMenu("Hjälp");
-	JMenuItem connectDBMenuItem = new JMenuItem("Anslut databas");
-	JMenuItem newPersonMenuItem = new JMenuItem("Ny kontoinnehavare");
-	JMenuItem newAccountMenuItem = new JMenuItem("Nytt konto");
-	JMenuItem depositWithdrawMenuItem = new JMenuItem("Insättning/Uttag");
-	JMenuItem transferMenuItem = new JMenuItem("Överföring");
-	JMenuItem statementMenuItem = new JMenuItem("Kontoutdrag");
-	JMenuItem aboutMenuItem = new JMenuItem("Om");
+	JMenu fileMenu = new JMenu("Arkiv"),
+		registerMenu = new JMenu("Registerhantering"),
+		manageAccountsMenu = new JMenu("Kontohantering"),
+		helpMenu = new JMenu("Hjälp");
+	JMenuItem connectDBMenuItem = new JMenuItem("Anslut databas"),
+		newPersonMenuItem = new JMenuItem("Ny kontoinnehavare"),
+		newAccountMenuItem = new JMenuItem("Nytt konto"),
+		depositWithdrawMenuItem = new JMenuItem("Insättning/Uttag"),
+		transferMenuItem = new JMenuItem("Överföring"),
+		statementMenuItem = new JMenuItem("Kontoutdrag"),
+		aboutMenuItem = new JMenuItem("Om");
 	
 	//Test code
 	JLabel testLabel = new JLabel("Testfield (lies in Start panel)");
@@ -37,23 +37,13 @@ public class Start extends JFrame {
 	TransferPanel transferPanel = new TransferPanel();
 	StatementPanel statementPanel = new StatementPanel();
 	 
-	
 	// This sets the active panel at start !!!
-	JPanel activePanel = connectDBPanel; // the Connect to database panel
-	
-	
-	
-	// Settings that can be reused
-	Dimension windowSize = new Dimension(500, 350);
-	Dimension panelSize = new Dimension(300,100);
-	
-	// Listener for personPanel 
-	// ActionListener personPanelListener = personPanel.getListeners(listenerType);
+	WeraPanel activePanel = connectDBPanel; // the Connect to database panel
 	
 	/**
 	 *  Listener for all buttons (and menus which are buttons)
 	 */
-	ActionListener buttonListener = new ActionListener() {
+	ActionListener startActionListener = new ActionListener() {
 		// Creates an inner class
 		public void actionPerformed(ActionEvent e) {
 
@@ -79,61 +69,70 @@ public class Start extends JFrame {
 						" Jonatha\n Oskar\n Magnus";
 				JOptionPane.showMessageDialog(rootPane, aboutMessage, "Om" +
 						" Weras betalservice", JOptionPane.INFORMATION_MESSAGE);
-			}
-			
+			}// end of if() statement			
 			activePanel.setVisible(true);	// show the selected panel
 		} // end of inner class
 	}; // End of Listener for all buttons
 	
-	
-	
 	/**
 	 * Listener for the add button in personPanel
 	 */ 
-	 	ActionListener personAddButtonListener = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			String queryString = personPanel.name + ";" +
-								  personPanel.street + ";" +
-								  personPanel.postno + ";" +
-								  personPanel.city;
-			System.out.print(queryBank(queryString));
-	} // end of inner class
-}; // End of Listener for all buttons
+ 	ActionListener panelActionListener = new ActionListener() {
+ 		public void actionPerformed(ActionEvent e) {
+ 			String queryString = "queryString not collected";
+ 			
+ 			if  (e.getSource() == connectDBPanel.addButton){
+ 				
+ 			}
+ 			
+ 			if  (e.getSource() == personPanel.addButton){
+					queryString = personPanel.name + ";" +
+							  personPanel.street + ";" +
+							  personPanel.postno + ";" +
+							  personPanel.city;
+ 			}
+ 			if  (e.getSource() == accountPanel.addButton){
+ 				
+ 			}
+ 			if  (e.getSource() == depositWithdrawPanel.performButton){
+ 				
+ 			}
+ 			if  (e.getSource() == transferPanel.addButton){
+ 				
+ 			}
+ 			if  (e.getSource() == statementPanel.showStatementButton){
+ 				
+ 			}
+ 		 			
+ 			activePanel.handleAnswer(queryBank(queryString));
+ 		} // end of inner class
+ 	}; // end of Listener for add button in personPanel
 
-
+	// Other class wide settings that can be reused
+	Dimension windowSize = new Dimension(500, 350);
+	Dimension panelSize = new Dimension(300,100);
+	
 
 	/**
-	 * Constructor. This must be called in order to be created
-	 * If this file is started from os it has contain a main()-method
-	 * so that this constructor can be activated
+	 * Constructor of Start.java
 	 */
 	public Start() {
 		
-	// Removes the java look and feel for buttons etc. 
-		try { 
+		// Set main window settings
+		setTitle("Weras betalservice");
+		setPreferredSize(windowSize);pack(); // Window size
+		setLayout(new FlowLayout()); // Use flow/grid/box strategy to place components
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		try { // Removes the java look and feel for buttons etc.
 			// Nimbus
 			//UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus" +
 			//		".NimbusLookAndFeel");
 			// Windows
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows" +
 					".WindowsLookAndFeel");			
-			
 			SwingUtilities.updateComponentTreeUI(this);
 		}catch(Exception ex){}
 
-	// Set the start settings for all components
-		// Connect the buttons to the buttonListener
-		connectDBMenuItem.addActionListener(buttonListener);
-		newPersonMenuItem.addActionListener(buttonListener);
-		newAccountMenuItem.addActionListener(buttonListener);
-		depositWithdrawMenuItem.addActionListener(buttonListener);
-		transferMenuItem.addActionListener(buttonListener);
-		statementMenuItem.addActionListener(buttonListener);
-		aboutMenuItem.addActionListener(buttonListener);
-		// Connect action listeners to the sub panels
-    	personPanel.addButton.addActionListener(personAddButtonListener);
-    	connectDBPanel.addButton.addActionListener(personAddButtonListener);
-		
 		// Add menus
 		menuBar.add(fileMenu); 
 		menuBar.add(registerMenu);
@@ -148,28 +147,43 @@ public class Start extends JFrame {
 		manageAccountsMenu.add(statementMenuItem);
 		helpMenu.add(aboutMenuItem);
 		setJMenuBar(menuBar);
+
+		// Connect the buttons to the buttonListener
+		connectDBMenuItem.addActionListener(startActionListener);
+		newPersonMenuItem.addActionListener(startActionListener);
+		newAccountMenuItem.addActionListener(startActionListener);
+		depositWithdrawMenuItem.addActionListener(startActionListener);
+		transferMenuItem.addActionListener(startActionListener);
+		statementMenuItem.addActionListener(startActionListener);
+		aboutMenuItem.addActionListener(startActionListener);
 		
-		setTitle("Weras betalservice");
-		setPreferredSize(windowSize);pack(); // Window size
-		setLayout(new FlowLayout()); // Use flow/grid/box strategy to place components
-		
+		// Connect action listeners to the sub panels
+    	connectDBPanel.addButton.addActionListener(panelActionListener);
+    	personPanel.addButton.addActionListener(panelActionListener);
+    	accountPanel.addButton.addActionListener(panelActionListener);
+    	depositWithdrawPanel.performButton.addActionListener(panelActionListener);
+    	transferPanel.addButton.addActionListener(panelActionListener);
+    	statementPanel.showStatementButton.addActionListener(panelActionListener);
+				
 		// Add panels, buttons and so on..
-		// Spacer
+		// A spacer before the active panel
 		add(new Box.Filler(new Dimension(450,20), new Dimension(450,20),
 				new Dimension(200,20))); 
-		// Add panels
+		// Add the panels
 		add(connectDBPanel);add(personPanel);add(accountPanel);
 		add(depositWithdrawPanel);add(transferPanel);add(statementPanel);
-		
-		// Spacer
+		// A spacer after before the active panel
 		add(new Box.Filler(new Dimension(450,20), new Dimension(450,20),
 				new Dimension(450,20))); 
-/*TEST*/add(testLabel);add(testTextField); // Test field  
-    	activePanel.setVisible(true); // Show the active panel
-    	//pack(); 
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+/*TEST CODE*/add(testLabel);add(testTextField); // Test field  
+
+		// we prefer NOT to pack(); here
+		// Show the active panel
+		activePanel.setVisible(true);  
 	}
 
+	
 	/**
 	 * main method (since we start this file from the OS)
 	 * Envokes our Start-class 
@@ -192,10 +206,6 @@ public class Start extends JFrame {
 		return answer;
 	}
 	
-	void testMethod(){
-		System.out.println("anropat från sub pane");
-	}
-	
-	
+
 	
 }

@@ -19,7 +19,7 @@ import java.awt.*;
  * @author Magnus
  *
  */
-public class StatementPanel extends JPanel {
+public class StatementPanel extends WeraPanel {
 	private static final long serialVersionUID = 1L; // just to shut eclipse up
 	
 	// Variables
@@ -84,10 +84,10 @@ public class StatementPanel extends JPanel {
 	}
 
 	/**
-	 * Returns this panels action listener
-	 * @return
+	 * Gives the user some feed back
+	 * @param answer
 	 */
-	ActionListener getActionListener(){
-		return buttonListener;
+	void handleAnswer(String answer){
+		JOptionPane.showMessageDialog(getParent(), answer);
 	}
 }
