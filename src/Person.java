@@ -37,6 +37,16 @@ public class Person {
 		return updated > 0;
 	}
 	
+	public String getName(){return name;}
+	public String getAddress() {return addr;}
+	public String getCity() {return city;}
+	public int getZip(){return zip;}
+	
+	public void setName(String n) {name = n;}
+	public void setAddress(String a) {addr = a;}
+	public void setCity(String c) {city = c;}
+	public void setZip(int z) {zip = z;}
+	
 	public static String toStringHeader(){
 		String format = "%-15s | %35s | %20s | %5s ";
 		

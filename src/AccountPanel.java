@@ -1,4 +1,5 @@
 /* READ THIS!!
+
  * All this file does is
  * A: Being a CPanel WITHIN the main CFrame i.e. Start.java
  * B: Handles the input from the user, filling a form
@@ -11,9 +12,11 @@
  */
 
 import javax.swing.*;
+import java.util.*;
 import javax.swing.border.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.sql.*;
 
 /**
  * @author Magnus
@@ -26,21 +29,30 @@ public class AccountPanel extends WeraPanel {
 	int postno = 1234;
 	String city = "Testaden";
 	Person personToAdd = new Person(name, street, postno, city);
+	
+	String accountNumber;
+	String holder;
+	Account.Type type;
+	double Saldo;
 
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
-	JLabel nameLabel = new JLabel("Namn");
-	JLabel streetLabel = new JLabel("Gatuadress");
-	JLabel zipLabel = new JLabel("Postnummer");
-	JLabel cityLabel = new JLabel("Stad");
-	JTextField nameField = new JTextField(10);
-	JTextField streetField = new JTextField(10);
-	JTextField zipField = new JTextField(10);
-	JTextField cityField = new JTextField(10);
-	JLabel nameStatusLabel = new JLabel("Saknas");
-	JLabel streetStatusLabel = new JLabel("Saknas");
-	JLabel zipStatusLabel = new JLabel("Saknas");
-	JLabel cityStatusLabel = new JLabel("Saknas");
+	JLabel numberLabel = new JLabel("Kontonummer");
+	JLabel holderLabel = new JLabel("Kontoägare");
+	JLabel typeLabel = new JLabel("Kontotyp");
+	JLabel balanceLabel = new JLabel("Saldo");
+	
+	
+	JTextField numberField = new JTextField(10);
+	JComboBox<String> holderBox = new JComboBox<String>();
+	JComboBox<String> typeBox = new JComboBox<String>();
+	JTextField balanceField = new JTextField(10);
+
+	JLabel numberStatusLabel = new JLabel("Saknas");
+	JLabel holderStatusLabel = new JLabel("Saknas");
+	JLabel typeStatusLabel = new JLabel("Saknas");
+	JLabel balanceStatusLabel = new JLabel("Saknas");
+	
 	JButton addButton = new JButton("Lägg till");
 	JButton clearButton = new JButton("Rensa");
 	
@@ -49,22 +61,54 @@ public class AccountPanel extends WeraPanel {
 	Dimension panelSize = new Dimension(300,100);
 	Border labelBorder = new EtchedBorder();
 	
+	class BadUserInputException extends Exception{
+		private static final long serialVersionUID = 4681301276310180115L;
+		
+	}
+	
 	// Listener for this panels buttons
-		ActionListener buttonListener = new ActionListener() {
-			// skapar inre klass (actionlistener är ett interface)
-			public void actionPerformed(ActionEvent e) {
+	ActionListener buttonListener = new ActionListener() {
+		// skapar inre klass (actionlistener är ett interface)
+		public void actionPerformed(ActionEvent e) {
 
-				// which button was pressed?
-				// check that right values are inserted
-				if (e.getSource() == addButton){
-					// Check user input
-					checkUserInput();
-				}
-				else if (e.getSource() == clearButton)
-			    	 streetField.setText("Clear");
+			// which button was pressed?
+			// check that right values are inserted
+			if (e.getSource() == addButton){
+				// Check user input
+				checkUserInput();
 				
-			} // end of inner class
-		}; // End of Listener for all buttons
+				try {
+					accountNumber = numberField.getText();
+					
+/*					type = typeBox.getSelectedIndex();
+					zip = Integer.parseInt(zipField.getText());
+					city = cityField.getText();
+					
+					Persons pers = new Persons();
+					pers.add(name, city, street, zip);
+	*/				
+				} catch (NumberFormatException ex) {
+
+					JOptionPane.showMessageDialog(
+							null,
+							"Du misslyckades med att mata in ett nummer!\n"
+							+ ex.getMessage(),	
+							"Fel inmatning", JOptionPane.ERROR_MESSAGE);
+/*				} catch (SQLException ex) {
+					JOptionPane.showMessageDialog(
+							null,
+							"SQL-fel!\n" + ex.getMessage(),	
+							"Trasig SQL", JOptionPane.ERROR_MESSAGE);
+					
+*/				}					
+			}
+			else if (e.getSource() == clearButton) {
+				numberField.setText("");
+			}
+				
+			
+		} // end of inner class
+	}; // End of Listener for all buttons
 
 	
 	/**
@@ -78,18 +122,38 @@ public class AccountPanel extends WeraPanel {
 		clearButton.addActionListener(buttonListener);
 		
 		// Design (border styles) 
-		nameLabel.setBorder(labelBorder);
-		streetLabel.setBorder(labelBorder);
-		zipLabel.setBorder(labelBorder);
-		cityLabel.setBorder(labelBorder);
+		holderLabel.setBorder(labelBorder);
+		numberLabel.setBorder(labelBorder);
+		typeLabel.setBorder(labelBorder);
+		balanceLabel.setBorder(labelBorder);
 		
 		// Add components so the LayoutmManager can distribute them
 		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
-		add(nameLabel); add(nameField); add(nameStatusLabel);
-		add(streetLabel); add(streetField); add(streetStatusLabel);
-		add(zipLabel); add(zipField); add(zipStatusLabel);
-		add(cityLabel); add(cityField); add(cityStatusLabel);
+		add(numberLabel); add(numberField); add(numberStatusLabel);
+		add(balanceLabel); add(balanceField); add(balanceStatusLabel);
+		add(typeLabel); add(typeBox); add(typeStatusLabel);
+		add(holderLabel); add(holderBox); add(holderStatusLabel);
 		add(addButton);	add(clearButton);
+		
+		// populate type and holders
+		String[] types = {"Sparkonto", "Lönekonto"};
+		for(String t : types) {
+			typeBox.addItem(t);
+		}
+		
+		try {
+			ArrayList<Person> persons = (new Persons()).getPersons() ;
+			for(Person p : persons) {
+				holderBox.addItem();
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(
+					null,
+					"SQL-fel!\n" + e.getMessage(),	
+					"Trasig SQL", JOptionPane.ERROR_MESSAGE);			
+		}
+		
+		
 		
 		// Give this pane a border with a title
 		setBorder(new TitledBorder("Lägg till nytt konto"));
@@ -102,7 +166,7 @@ public class AccountPanel extends WeraPanel {
 	 * checks user input
 	 */
 	void checkUserInput(){
-		if (nameField.getText() == "")
+/*		if (nameField.getText() == "")
 			nameStatusLabel.setText("obligatoriskt");
 		if (streetField.getText() == "")
 			nameStatusLabel.setText("obligatoriskt");
@@ -110,7 +174,7 @@ public class AccountPanel extends WeraPanel {
 			nameStatusLabel.setText("obligatoriskt");
 		if (cityField.getText() == "")
 			nameStatusLabel.setText("obligatoriskt");
-	}
+*/	}
 	/**
 	 * Gives the user some feed back
 	 * @param answer
