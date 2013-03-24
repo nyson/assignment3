@@ -14,6 +14,8 @@
 import javax.swing.*;
 import java.util.*;
 import javax.swing.border.*;
+import javax.swing.event.DocumentListener;
+
 import java.awt.event.*;
 import java.awt.*;
 import java.sql.*;
@@ -23,17 +25,10 @@ import java.sql.*;
  *
  */
 public class AccountPanel extends WeraPanel {
-	
-	String name = "Test Person";
-	String street = "Test gata";
-	int postno = 1234;
-	String city = "Testaden";
-	Person personToAdd = new Person(name, street, postno, city);
-	
 	String accountNumber;
 	String holder;
 	Account.Type type;
-	double Saldo;
+	double balance;
 
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
@@ -62,10 +57,28 @@ public class AccountPanel extends WeraPanel {
 	Border labelBorder = new EtchedBorder();
 	
 	class BadUserInputException extends Exception{
+		public BadUserInputException(String m) {
+			super(m);
+		}
+
 		private static final long serialVersionUID = 4681301276310180115L;
 		
 	}
-	
+	KeyListener updateListener = new KeyListener() {
+
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        public void keyReleased(KeyEvent e) {
+        	printStatus();
+        }
+
+        public void keyPressed(KeyEvent e) {
+
+        }
+    };
+    
 	// Listener for this panels buttons
 	ActionListener buttonListener = new ActionListener() {
 		// skapar inre klass (actionlistener är ett interface)
@@ -79,14 +92,18 @@ public class AccountPanel extends WeraPanel {
 				try {
 					checkUserInput();
 					accountNumber = numberField.getText();
+					balance = Double.parseDouble(balanceField.getText());
+					if(typeBox.getSelectedItem() == "Sparkonto")
+						type = Account.Type.SAVINGS;
+					else
+						type = Account.Type.WAGE;
 					
-/*					type = typeBox.getSelectedIndex();
-					zip = Integer.parseInt(zipField.getText());
-					city = cityField.getText();
+					holder = holderBox.getSelectedItem().toString();
 					
-					Persons pers = new Persons();
-					pers.add(name, city, street, zip);
-	*/				
+					Accounts accs = new Accounts();
+					
+					accs.addAccount(holder, accountNumber, balance, type);
+					
 				} catch(BadUserInputException ex) {
 					JOptionPane.showMessageDialog(
 						null,
@@ -101,13 +118,13 @@ public class AccountPanel extends WeraPanel {
 							"Du misslyckades med att mata in ett nummer!\n"
 							+ ex.getMessage(),	
 							"Fel inmatning", JOptionPane.ERROR_MESSAGE);
-/*				} catch (SQLException ex) {
+				} catch (SQLException ex) {
 					JOptionPane.showMessageDialog(
 							null,
 							"SQL-fel!\n" + ex.getMessage(),	
 							"Trasig SQL", JOptionPane.ERROR_MESSAGE);
 					
-*/				}					
+				}					
 			}
 			else if (e.getSource() == clearButton) {
 				numberField.setText("");
@@ -127,12 +144,18 @@ public class AccountPanel extends WeraPanel {
 		// Attach ActionListeners
 		addButton.addActionListener(buttonListener);
 		clearButton.addActionListener(buttonListener);
+
+		// attach keylistener
+		numberField.addKeyListener(updateListener);
+		balanceField.addKeyListener(updateListener);
 		
 		// Design (border styles) 
 		holderLabel.setBorder(labelBorder);
 		numberLabel.setBorder(labelBorder);
 		typeLabel.setBorder(labelBorder);
 		balanceLabel.setBorder(labelBorder);
+		
+		balanceField.setText("0.00");
 		
 		// Add components so the LayoutmManager can distribute them
 		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
@@ -172,9 +195,44 @@ public class AccountPanel extends WeraPanel {
 	/**
 	 * checks user input
 	 */
-	void checkUserInput() throws BadUserInputException{
-		
+	void checkUserInput() throws BadUserInputException,
+		SQLException{
+		if(numberField.getText().isEmpty() 
+			|| balanceField.getText().isEmpty())
+			throw new BadUserInputException("Du har tomma fält!");
+				
+		Accounts a = new Accounts();
+		if(a.accountExists(numberField.getText()))
+			throw new BadUserInputException("Kontonumret existerar redan!");
+
 	}
+	
+	void printStatus() {
+		if(numberField.getText().isEmpty());
+			numberStatusLabel.setText("Saknas");
+		numberStatusLabel.setText("");
+		balanceStatusLabel.setText("");
+
+	
+		Accounts a = new Accounts();
+		try {
+			if(a.accountExists(numberField.getText()))
+				numberStatusLabel.setText("Upptaget!");
+		} catch (SQLException e){
+			numberStatusLabel.setText("SQL-fel!");
+		}
+		
+			
+		if(balanceField.getText().isEmpty())
+			balanceStatusLabel.setText("Saknas");
+		
+		try {
+			Double.parseDouble(balanceField.getText());
+		} catch (NumberFormatException e) {
+			balanceStatusLabel.setText("Ej en siffra");
+		}
+	}
+	
 	/**
 	 * Gives the user some feed back
 	 * @param answer

@@ -101,8 +101,6 @@ public class Accounts {
 		ResultSet r = s.executeQuery();
 		
 		return r.next();
-		
-		
 	}
 	
 	public ArrayList<Transaction> getTransactionsByAccount(String account)
