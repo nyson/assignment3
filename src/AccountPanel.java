@@ -128,6 +128,7 @@ public class AccountPanel extends WeraPanel {
 			}
 			else if (e.getSource() == clearButton) {
 				numberField.setText("");
+				balanceField.setText("0.00");
 			}
 				
 			
@@ -162,7 +163,7 @@ public class AccountPanel extends WeraPanel {
 		
 		// Add components so the LayoutmManager can distribute them
 		// setLayout(new GridLayout(5,3))
-		setLayout(new GridLayout(2,1)); // Use flow strategy to place components
+		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
 		
 	
 		add(numberLabel); add(numberField); add(numberStatusLabel);
