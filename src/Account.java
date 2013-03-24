@@ -1,7 +1,13 @@
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
+/**
+ * Handles Accounts and SQL update connections
+ * @author Jonathan Skårstedt
+ * @author Magnus Duberg
+ * @author Oskar Linder Pålsgård
+ *
+ */
 public class Account {
 	public enum Type {SAVINGS, WAGE};
 	
