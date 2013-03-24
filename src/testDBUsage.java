@@ -1,5 +1,5 @@
 import java.sql.SQLException;
-import java.util.*;
+
 
 public class testDBUsage {
 	public static void main(String[] args) {
@@ -24,12 +24,11 @@ public class testDBUsage {
 			a.deposit(200);
 			System.out.println(a);
 			try {
-				a.withdraw(200);
-			} catch (Account.NotEnoughMineralsException e) {
+				a.withdraw(400);
+			} catch (NotEnoughMineralsException e) {
 				System.out.println("Not enough minerals!");
 			}
 			
-						
 		} catch (NoSuchRowException e) {
 			System.out.println(e.getMessage());
 		

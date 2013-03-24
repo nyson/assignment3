@@ -1,3 +1,6 @@
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 
 public class Account {
 	public enum Type {SAVINGS, WAGE};
@@ -15,19 +18,6 @@ public class Account {
 		}
 	}
 	
-	/**
-	 * Exception for lack of funds in the account
-	 * @author Jonathan Skårstedt
-	 * @author Oskar Linder Pålsgård
-	 * @author Magnus Duberg
-	 */
-	public class NotEnoughMineralsException extends Exception {
-		static final long serialVersionUID = 13945013;
-		public NotEnoughMineralsException(String message) {
-			super(message);
-		}
-	}
-
 	/**
 	 * Transforms an AccountType to String
 	 * @param t AccountType to transform
@@ -80,7 +70,15 @@ public class Account {
 		key = number;
 	}
 	
-	public Account(String accNr, Type accType, String accHolder, 
+	/**
+	 * Creates an account by type instead of inferenceing it
+	 * 
+	 * @param accNr Account Number
+	 * @param accType Account Type
+	 * @param accHolder Account Holder
+	 * @param accBalance Account Balance
+	 */
+	public Account(String accNr, Type accType, String accHolder,
 			double accBalance) {
 
 		type = accType;
@@ -106,6 +104,37 @@ public class Account {
 		this.balance = accountBalance;}
 
 	/**
+	 * Pushes out changes to database
+	 * 
+	 * @return True on success
+	 * @throws SQLException
+	 */
+	public boolean push() throws SQLException {
+		String query = 
+			"UPDATE konto "
+				+ "SET kontonr=?, "
+				+ "kontotyp=?, "
+				+ "namn=?, "
+				+ "saldo=? " 
+			+ "WHERE kontonr=?"; 
+		
+		PreparedStatement push = DB.prepareStatement(query);
+		push.setString(1, number);
+		push.setString(2, typeToString(type));
+		push.setString(3, holder);
+		push.setDouble(4, balance);
+		push.setString(5, key);
+		
+		int updated = push.executeUpdate();
+		key = number;
+		
+		push.close();
+		
+		return updated > 0;
+	}
+	
+	
+	/**
 	 * Deposits set amount to account
 	 * @param amount Amount to deposit
 	 * @return New account balance
@@ -129,6 +158,7 @@ public class Account {
 		balance -= amount;
 		return balance;		
 	}
+
 	
 	/**
 	 * Creates a header for console output of an account object

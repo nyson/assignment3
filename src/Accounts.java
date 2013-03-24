@@ -4,9 +4,20 @@ import java.sql.*;
 
 
 public class Accounts {
+	/**
+	 * Adds a new account to the database
+	 * 
+	 * @param holder Name of the holder, and key to the person table
+	 * @param number Account number. Must be unique
+	 * @param balance Account balance
+	 * @param type
+	 * @return
+	 * @throws SQLException
+	 */
 	public boolean add(String holder, String number, double balance, 
-			Account.Type type) throws SQLException{
-		
+			Account.Type type) 
+			throws SQLException, NotEnoughMineralsException{
+				
 		PreparedStatement ps = DB.prepareStatement
 				("SELECT name FROM person WHERE name = ?");
 		
