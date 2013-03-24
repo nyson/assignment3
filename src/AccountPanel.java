@@ -49,8 +49,8 @@ public class AccountPanel extends WeraPanel {
 	JTextField balanceField = new JTextField(10);
 
 	JLabel numberStatusLabel = new JLabel("Saknas");
-	JLabel holderStatusLabel = new JLabel("Saknas");
-	JLabel typeStatusLabel = new JLabel("Saknas");
+	JLabel holderStatusLabel = new JLabel("");
+	JLabel typeStatusLabel = new JLabel("");
 	JLabel balanceStatusLabel = new JLabel("Saknas");
 	
 	JButton addButton = new JButton("Lägg till");
@@ -75,9 +75,9 @@ public class AccountPanel extends WeraPanel {
 			// check that right values are inserted
 			if (e.getSource() == addButton){
 				// Check user input
-				checkUserInput();
-				
+			
 				try {
+					checkUserInput();
 					accountNumber = numberField.getText();
 					
 /*					type = typeBox.getSelectedIndex();
@@ -87,6 +87,13 @@ public class AccountPanel extends WeraPanel {
 					Persons pers = new Persons();
 					pers.add(name, city, street, zip);
 	*/				
+				} catch(BadUserInputException ex) {
+					JOptionPane.showMessageDialog(
+						null,
+						"Korrigera trasiga fält och pröva sedan igen!\n"
+						+ ex.getMessage(),	
+						"Fel inmatning", JOptionPane.ERROR_MESSAGE);
+					
 				} catch (NumberFormatException ex) {
 
 					JOptionPane.showMessageDialog(
@@ -144,7 +151,7 @@ public class AccountPanel extends WeraPanel {
 		try {
 			ArrayList<Person> persons = (new Persons()).getPersons() ;
 			for(Person p : persons) {
-				holderBox.addItem();
+				holderBox.addItem(p.getName());
 			}
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(
@@ -165,16 +172,9 @@ public class AccountPanel extends WeraPanel {
 	/**
 	 * checks user input
 	 */
-	void checkUserInput(){
-/*		if (nameField.getText() == "")
-			nameStatusLabel.setText("obligatoriskt");
-		if (streetField.getText() == "")
-			nameStatusLabel.setText("obligatoriskt");
-		if (zipField.getText() == "")
-			nameStatusLabel.setText("obligatoriskt");
-		if (cityField.getText() == "")
-			nameStatusLabel.setText("obligatoriskt");
-*/	}
+	void checkUserInput() throws BadUserInputException{
+		
+	}
 	/**
 	 * Gives the user some feed back
 	 * @param answer

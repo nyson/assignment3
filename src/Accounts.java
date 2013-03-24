@@ -83,6 +83,28 @@ public class Accounts {
 		return accounts;
 	}
 	
+	
+	/**
+	 * Checks if account exists and returns true or false
+	 * 
+	 * @param accountNo Account number to check
+	 * @return true on existing account number else false
+	 * @throws SQLException
+	 */
+	public boolean accountExists(String accountNo)
+			throws SQLException{
+		PreparedStatement s = DB.prepareStatement
+			("SELECT kontonr FROM konto WHERE kontonr = ?");
+		
+		s.setString(1, accountNo);
+		
+		ResultSet r = s.executeQuery();
+		
+		return r.next();
+		
+		
+	}
+	
 	public ArrayList<Transaction> getTransactionsByAccount(String account)
 			throws SQLException{
 		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
@@ -120,6 +142,12 @@ public class Accounts {
 		return transactions;		
 	}
 	
+	/**
+	 * Fetches a list of all transactions in the database 
+	 * 
+	 * @return a list of all transactions
+	 * @throws SQLException
+	 */
 	public ArrayList<Transaction> getTransactions()
 			throws SQLException{
 		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
