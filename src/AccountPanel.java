@@ -145,10 +145,14 @@ public class AccountPanel extends WeraPanel {
 	public AccountPanel() {
 	// Set the start settings for all components
 		
+		try {
+			ArrayList<Account> accs = (new Accounts()).getAccounts();
+//			accountTable = new JTable(data, tableColumns);
 
-		ArrayList<Account> accs = (new Accounts()).getAccounts();
+		} catch (SQLException e) {
+			
+		}
 		
-		accountTable = new JTable(data, tableColumns);
 		
 		// Attach ActionListeners
 		addButton.addActionListener(buttonListener);
