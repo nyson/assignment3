@@ -103,9 +103,13 @@ public class PersonPanel extends WeraPanel {
 				}
 
 			}
-			else if (e.getSource() == clearButton)
-				streetField.setText("Clear");
-
+			else if (e.getSource() == clearButton) {
+				nameField.setText("");
+				zipField.setText("");
+				streetField.setText("");
+				cityField.setText("");
+				updateStatusLabels();
+			}
 		} // end of inner class
 	}; // End of Listener for all buttons
 
