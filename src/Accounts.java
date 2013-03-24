@@ -103,6 +103,28 @@ public class Accounts {
 		return r.next();
 	}
 	
+	/**
+	 * Transfers money from an account to another
+	 * 
+	 * @param a Account to withdraw from
+	 * @param amount
+	 * @param b Account to deposit to
+	 * @throws NotEnoughMineralsException
+	 * @throws SQLException
+	 */
+	public void transfer(Account a, double amount, Account b) 
+			throws NotEnoughMineralsException, SQLException{
+		a.withdraw(amount);
+		b.deposit(amount);
+	}
+	
+	/**
+	 * Fetches a list of transactions belonging to a specific account
+	 * 
+	 * @param account
+	 * @return
+	 * @throws SQLException
+	 */
 	public ArrayList<Transaction> getTransactionsByAccount(String account)
 			throws SQLException{
 		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
