@@ -14,8 +14,6 @@
 import javax.swing.*;
 import java.util.*;
 import javax.swing.border.*;
-import javax.swing.event.DocumentListener;
-
 import java.awt.event.*;
 import java.awt.*;
 import java.sql.*;
@@ -30,7 +28,6 @@ public class AccountPanel extends WeraPanel {
 	Account.Type type;
 	double balance;
 	
-	String[] tableColumns = {"Kontonummer", "Saldo", "Typ", "Innehavare"};
 	
 
 	private static final long serialVersionUID = 1L;
@@ -39,8 +36,6 @@ public class AccountPanel extends WeraPanel {
 	JLabel holderLabel = new JLabel("Kontoägare");
 	JLabel typeLabel = new JLabel("Kontotyp");
 	JLabel balanceLabel = new JLabel("Saldo");
-	
-	JTable accountTable;
 	
 	JTextField numberField = new JTextField(10);
 	JComboBox<String> holderBox = new JComboBox<String>();
@@ -68,6 +63,7 @@ public class AccountPanel extends WeraPanel {
 		private static final long serialVersionUID = 4681301276310180115L;
 		
 	}
+	
 	KeyListener updateListener = new KeyListener() {
 
         public void keyTyped(KeyEvent e) {
@@ -138,20 +134,14 @@ public class AccountPanel extends WeraPanel {
 		} // end of inner class
 	}; // End of Listener for all buttons
 
-	
+
 	/**
 	 * The panel where you can add new persons to the database
 	 */
 	public AccountPanel() {
 	// Set the start settings for all components
 		
-		try {
-			ArrayList<Account> accs = (new Accounts()).getAccounts();
-//			accountTable = new JTable(data, tableColumns);
 
-		} catch (SQLException e) {
-			
-		}
 		
 		
 		// Attach ActionListeners
@@ -168,15 +158,18 @@ public class AccountPanel extends WeraPanel {
 		typeLabel.setBorder(labelBorder);
 		balanceLabel.setBorder(labelBorder);
 		
-		balanceField.setText("0.00");
+	 	balanceField.setText("0.00");
 		
 		// Add components so the LayoutmManager can distribute them
-		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
+		// setLayout(new GridLayout(5,3))
+		setLayout(new GridLayout(2,1)); // Use flow strategy to place components
+		
+	
 		add(numberLabel); add(numberField); add(numberStatusLabel);
 		add(balanceLabel); add(balanceField); add(balanceStatusLabel);
 		add(typeLabel); add(typeBox); add(typeStatusLabel);
 		add(holderLabel); add(holderBox); add(holderStatusLabel);
-		add(addButton);	add(clearButton);
+		add(addButton); add(clearButton);
 		
 		// populate type and holders
 		String[] types = {"Sparkonto", "Lönekonto"};
