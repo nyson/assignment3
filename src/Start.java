@@ -75,7 +75,7 @@ public class Start extends JFrame {
 	}; // End of Listener for all buttons
 	
 	/**
-	 * Listener for the add button in personPanel
+	 * Listener for the "trigger" buttons in the panels
 	 */ 
  	ActionListener panelActionListener = new ActionListener() {
  		public void actionPerformed(ActionEvent e) {
@@ -86,10 +86,11 @@ public class Start extends JFrame {
  			}
  			
  			if  (e.getSource() == personPanel.addButton){
-					queryString = personPanel.name + ";" +
-							  personPanel.street + ";" +
-							  personPanel.postno + ";" +
-							  personPanel.city;
+ 				Person p = new Person(personPanel.name, personPanel.street,
+							  personPanel.zip, personPanel.city);
+ 				try{
+ 					personPanel.handleAnswer(new Boolean(p.push()).toString());
+ 				}catch(Exception exx) {}
  			}
  			if  (e.getSource() == accountPanel.addButton){
  				
@@ -104,7 +105,7 @@ public class Start extends JFrame {
  				
  			}
  		 			
- 			activePanel.handleAnswer(queryBank(queryString));
+ 			//activePanel.handleAnswer(queryBank(queryString));
  		} // end of inner class
  	}; // end of Listener for add button in personPanel
 

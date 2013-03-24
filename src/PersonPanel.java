@@ -23,23 +23,23 @@ public class PersonPanel extends WeraPanel {
 	
 	String name = "";
 	String street = "";
-	int postno = 0;
+	int zip = 0;
 	String city = "";
-	Person personToAdd = new Person(name, street, postno, city);
+	Person personToAdd = new Person(name, street, zip, city);
 
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
 	JLabel nameLabel = new JLabel("Namn");
 	JLabel streetLabel = new JLabel("Gatuadress");
-	JLabel postnoLabel = new JLabel("Postnummer");
+	JLabel zipLabel = new JLabel("Postnummer");
 	JLabel cityLabel = new JLabel("Stad");
 	JTextField nameField = new JTextField(10);
 	JTextField streetField = new JTextField(10);
-	JTextField postnoField = new JTextField(10);
+	JTextField zipField = new JTextField(10);
 	JTextField cityField = new JTextField(10);
 	JLabel nameStatusLabel = new JLabel("Saknas");
 	JLabel streetStatusLabel = new JLabel("Saknas");
-	JLabel postnoStatusLabel = new JLabel("Saknas");
+	JLabel zipStatusLabel = new JLabel("Saknas");
 	JLabel cityStatusLabel = new JLabel("Saknas");
 	JButton addButton = new JButton("Lägg till");
 	JButton clearButton = new JButton("Rensa");
@@ -51,14 +51,14 @@ public class PersonPanel extends WeraPanel {
 	
 	// Listener for this panels buttons
 		ActionListener buttonListener = new ActionListener() {
-			// skapar inre klass (actionlistener är ett interface)
+			// creates an inner class
 			public void actionPerformed(ActionEvent e) {
 
 				// which button was pressed?
 				if (e.getSource() == addButton){
 					name = nameField.getText();
 					street = streetField.getText();
-					postno = Integer.parseInt(postnoField.getText());
+					zip = Integer.parseInt(zipField.getText());
 					city = cityField.getText();
 				}
 				else if (e.getSource() == clearButton)
@@ -81,14 +81,14 @@ public class PersonPanel extends WeraPanel {
 		// Design (border styles) 
 		nameLabel.setBorder(labelBorder);
 		streetLabel.setBorder(labelBorder);
-		postnoLabel.setBorder(labelBorder);
+		zipLabel.setBorder(labelBorder);
 		cityLabel.setBorder(labelBorder);
 		
 		// Add components so the LayoutmManager can distribute them
 		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
 		add(nameLabel); add(nameField); add(nameStatusLabel);
 		add(streetLabel); add(streetField); add(streetStatusLabel);
-		add(postnoLabel); add(postnoField); add(postnoStatusLabel);
+		add(zipLabel); add(zipField); add(zipStatusLabel);
 		add(cityLabel); add(cityField); add(cityStatusLabel);
 		add(addButton);	add(clearButton);
 		
