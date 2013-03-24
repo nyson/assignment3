@@ -162,7 +162,7 @@ public class Account {
 				("You don't have that much in the bank!");
 		
 		balance -= amount;
-		return balance;		
+		return balance;
 	}
 
 	

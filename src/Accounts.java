@@ -7,17 +7,16 @@ public class Accounts {
 	/**
 	 * Adds a new account to the database
 	 * 
-	 * @param holder Name of the holder, and key to the person table
-	 * @param number Account number. Must be unique
+	 * @param holder Holder of the account, needs to already be in the database
+	 * @param number Account number
 	 * @param balance Account balance
-	 * @param type
-	 * @return
+	 * @param type Account type
+	 * @return true on success
 	 * @throws SQLException
 	 */
 	public boolean add(String holder, String number, double balance, 
-			Account.Type type) 
-			throws SQLException, NotEnoughMineralsException{
-				
+			Account.Type type) throws SQLException{
+		
 		PreparedStatement ps = DB.prepareStatement
 				("SELECT name FROM person WHERE name = ?");
 		
