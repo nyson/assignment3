@@ -55,14 +55,7 @@ public class AccountPanel extends WeraPanel {
 	Dimension panelSize = new Dimension(300,100);
 	Border labelBorder = new EtchedBorder();
 	
-	class BadUserInputException extends Exception{
-		public BadUserInputException(String m) {
-			super(m);
-		}
 
-		private static final long serialVersionUID = 4681301276310180115L;
-		
-	}
 	
 	KeyListener updateListener = new KeyListener() {
 

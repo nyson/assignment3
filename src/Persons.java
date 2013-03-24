@@ -42,6 +42,17 @@ public class Persons {
 		return updated > 0;
 	}
 	
+	public boolean exists(String name) throws SQLException{
+		try {
+			getPersonByName(name);
+			return true;
+		} catch (NoSuchRowException e) {
+			return false;
+		}
+		
+		
+	}
+	
 	public Person getPersonByName(String name) 
 			throws SQLException, NoSuchRowException{
 		String query = "SELECT * FROM person WHERE name = ?";

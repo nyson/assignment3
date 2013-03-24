@@ -12,6 +12,7 @@
 
 import javax.swing.*;
 import javax.swing.border.*;
+
 import java.awt.event.*;
 import java.awt.*;
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ import java.sql.SQLException;
  *
  */
 public class PersonPanel extends WeraPanel {
-	
+
 	String name = "";
 	String street = "";
 	int zip = 0;
@@ -44,67 +45,74 @@ public class PersonPanel extends WeraPanel {
 	JLabel cityStatusLabel = new JLabel("Saknas");
 	JButton addButton = new JButton("Lägg till");
 	JButton clearButton = new JButton("Rensa");
-	
+
 
 	// Reusable objects for design settings
 	Dimension panelSize = new Dimension(300,100);
 	Border labelBorder = new EtchedBorder();
-	
+
 	// Listener for this panels buttons
-		ActionListener buttonListener = new ActionListener() {
-			// creates an inner class
-			public void actionPerformed(ActionEvent e) {
+	ActionListener buttonListener = new ActionListener() {
+		// creates an inner class
+		public void actionPerformed(ActionEvent e) {
 
-				// which button was pressed?
-				if (e.getSource() == addButton){
-					try {
-						name = nameField.getText();
-						street = streetField.getText();
-						zip = Integer.parseInt(zipField.getText());
-						city = cityField.getText();
-						
-						Persons pers = new Persons();
-						pers.add(name, city, street, zip);
-						
-					} catch (NumberFormatException ex) {
+			// which button was pressed?
+			if (e.getSource() == addButton){
+				try {
+					checkUserInput();
 
-						JOptionPane.showMessageDialog(
-								null,
-								"Du misslyckades med att mata in ett nummer!\n"
-								+ ex.getMessage(),	
-								"Fel inmatning", JOptionPane.ERROR_MESSAGE);
-					} catch (SQLException ex) {
-						JOptionPane.showMessageDialog(
-								null,
-								"SQL-fel!\n" + ex.getMessage(),	
-								"Trasig SQL", JOptionPane.ERROR_MESSAGE);
-						
-					}
-					
+					name = nameField.getText();
+					street = streetField.getText();
+					zip = Integer.parseInt(zipField.getText());
+					city = cityField.getText();
+
+					Persons pers = new Persons();
+					pers.add(name, city, street, zip);
+
+				} catch (BadUserInputException ex){
+					JOptionPane.showMessageDialog(
+							null, ex.getMessage(), "Felaktig inmatning", 
+							JOptionPane.ERROR_MESSAGE);
+
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(
+							null,
+							"Du misslyckades med att mata in ett nummer!\n"
+									+ ex.getMessage(),	
+									"Fel inmatning", JOptionPane.ERROR_MESSAGE);
+
+				} catch (SQLException ex) {
+					JOptionPane.showMessageDialog(
+							null,
+							"SQL-fel!\n" + ex.getMessage(),	
+							"Trasig SQL", JOptionPane.ERROR_MESSAGE);
+
 				}
-				else if (e.getSource() == clearButton)
-			    	 streetField.setText("Clear");
-				
-			} // end of inner class
-		}; // End of Listener for all buttons
 
-	
+			}
+			else if (e.getSource() == clearButton)
+				streetField.setText("Clear");
+
+		} // end of inner class
+	}; // End of Listener for all buttons
+
+
 	/**
 	 * The panel where you can add new persons to the database
 	 */
 	public PersonPanel() {
-	// Set the start settings for all components
-		
+		// Set the start settings for all components
+
 		// Attach ActionListeners
 		addButton.addActionListener(buttonListener);
 		clearButton.addActionListener(buttonListener);
-		
+
 		// Design (border styles) 
 		nameLabel.setBorder(labelBorder);
 		streetLabel.setBorder(labelBorder);
 		zipLabel.setBorder(labelBorder);
 		cityLabel.setBorder(labelBorder);
-		
+
 		// Add components so the LayoutmManager can distribute them
 		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
 		add(nameLabel); add(nameField); add(nameStatusLabel);
@@ -112,12 +120,12 @@ public class PersonPanel extends WeraPanel {
 		add(zipLabel); add(zipField); add(zipStatusLabel);
 		add(cityLabel); add(cityField); add(cityStatusLabel);
 		add(addButton);	add(clearButton);
-		
+
 		// Give this pane a border with a title
 		setBorder(new TitledBorder("Lägg till ny kontoinnehavare"));
 		//setMaximumSize(panelSize);
 		setVisible(false); // Start hidden
-		
+
 	}
 
 	/**
@@ -127,4 +135,74 @@ public class PersonPanel extends WeraPanel {
 	void handleAnswer(String answer){
 		JOptionPane.showMessageDialog(getParent(), answer);
 	}
+
+	private void updateStatusLabels(){
+
+		try {
+			if(nameField.getText().isEmpty())
+				nameStatusLabel.setText("Saknas");
+			else if((new Persons()).exists(nameField.getText())){
+				nameStatusLabel.setText("Namnet finns redan!");
+			}				 
+		} catch (SQLException e) {
+			nameStatusLabel.setText("SQL-fel!");			
+		}
+
+		if(streetField.getText().isEmpty())
+			streetStatusLabel.setText("Saknas");
+
+		if(zipField.getText().isEmpty())
+			zipStatusLabel.setText("Saknas");
+		else {
+			try {
+				Integer.parseInt(zipField.getText());
+			} catch (NumberFormatException e) {
+				zipStatusLabel.setText("Detta är inte ett heltal!");
+			}
+		}
+
+
+		if(cityField.getText().isEmpty())
+			cityStatusLabel.setText("Saknas"); 
+
+	}
+
+	private void checkUserInput() throws BadUserInputException,
+	SQLException{
+		if(nameField.getText().isEmpty() 
+				|| streetField.getText().isEmpty()
+				|| zipField.getText().isEmpty() 
+				|| cityField.getText().isEmpty())
+			throw new BadUserInputException("Du har tomma fält!");
+
+
+		if((new Persons()).exists(nameField.getText()))
+			throw new BadUserInputException
+			("Personen existerar redan i databasen!");
+
+		try {
+			Integer.parseInt(zipField.getText());
+		} catch (NumberFormatException e) {
+			throw new BadUserInputException("Postnumret är inte ett heltal!");
+		}
+	}	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
