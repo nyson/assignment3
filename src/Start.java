@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.text.*;
+import java.util.Date;
 
 public class Start extends JFrame {
 	
@@ -129,8 +131,18 @@ public class Start extends JFrame {
 	 */
 	public static void main(String[] args) {
 
-		Start e1 = new Start();
-		e1.setVisible(true);
+		Start werasBetalService = new Start();
+		werasBetalService.setVisible(true);
 		System.out.println("Weras betalservice is running...");
+		werasBetalService.deadline();
+	}
+	
+	void deadline(){
+		DateFormat formatter = new SimpleDateFormat("yyyyMMdd hh:mm:ss");
+		try {
+			Date deadline = formatter.parse("20130325 08:00:00");
+			int diff = (int) (deadline.getTime() - new Date().getTime());
+			System.out.println("deadline = t - " + (diff/1000)+" s");
+		}catch(Exception e){}
 	}
 }
