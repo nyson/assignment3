@@ -29,6 +29,9 @@ public class AccountPanel extends WeraPanel {
 	String holder;
 	Account.Type type;
 	double balance;
+	
+	String[] tableColumns = {"Kontonummer", "Saldo", "Typ", "Innehavare"};
+	
 
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
@@ -37,6 +40,7 @@ public class AccountPanel extends WeraPanel {
 	JLabel typeLabel = new JLabel("Kontotyp");
 	JLabel balanceLabel = new JLabel("Saldo");
 	
+	JTable accountTable;
 	
 	JTextField numberField = new JTextField(10);
 	JComboBox<String> holderBox = new JComboBox<String>();
@@ -140,6 +144,11 @@ public class AccountPanel extends WeraPanel {
 	 */
 	public AccountPanel() {
 	// Set the start settings for all components
+		
+
+		ArrayList<Account> accs = (new Accounts()).getAccounts();
+		
+		accountTable = new JTable(data, tableColumns);
 		
 		// Attach ActionListeners
 		addButton.addActionListener(buttonListener);
