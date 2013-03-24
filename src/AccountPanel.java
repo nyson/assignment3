@@ -58,19 +58,13 @@ public class AccountPanel extends WeraPanel {
 
 	
 	KeyListener updateListener = new KeyListener() {
-
-        public void keyTyped(KeyEvent e) {
-
-        }
-
+        public void keyTyped(KeyEvent e) {}
+        public void keyPressed(KeyEvent e) {}
+        
         public void keyReleased(KeyEvent e) {
         	printStatus();
         }
-
-        public void keyPressed(KeyEvent e) {
-
-        }
-    };
+	};
     
 	// Listener for this panels buttons
 	ActionListener buttonListener = new ActionListener() {

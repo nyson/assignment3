@@ -50,6 +50,14 @@ public class PersonPanel extends WeraPanel {
 	// Reusable objects for design settings
 	Dimension panelSize = new Dimension(300,100);
 	Border labelBorder = new EtchedBorder();
+	KeyListener updateListener = new KeyListener() {
+        public void keyTyped(KeyEvent e) {}
+        public void keyPressed(KeyEvent e) {}
+        
+        public void keyReleased(KeyEvent e) {
+        	updateStatusLabels();
+        }
+	};
 
 	// Listener for this panels buttons
 	ActionListener buttonListener = new ActionListener() {
@@ -68,6 +76,11 @@ public class PersonPanel extends WeraPanel {
 
 					Persons pers = new Persons();
 					pers.add(name, city, street, zip);
+
+					JOptionPane.showMessageDialog(
+							null, name + " lades in i databasen utan problem!", 
+							"Namn inmatades", 
+							JOptionPane.INFORMATION_MESSAGE);
 
 				} catch (BadUserInputException ex){
 					JOptionPane.showMessageDialog(
@@ -107,6 +120,11 @@ public class PersonPanel extends WeraPanel {
 		addButton.addActionListener(buttonListener);
 		clearButton.addActionListener(buttonListener);
 
+		nameField.addKeyListener(updateListener);
+		zipField.addKeyListener(updateListener);
+		streetField.addKeyListener(updateListener);
+		cityField.addKeyListener(updateListener);
+		
 		// Design (border styles) 
 		nameLabel.setBorder(labelBorder);
 		streetLabel.setBorder(labelBorder);
@@ -137,12 +155,18 @@ public class PersonPanel extends WeraPanel {
 	}
 
 	private void updateStatusLabels(){
-
+		nameStatusLabel.setText("");
+		zipStatusLabel.setText("");
+		cityStatusLabel.setText("");
+		streetStatusLabel.setText("");
+		
 		try {
 			if(nameField.getText().isEmpty())
 				nameStatusLabel.setText("Saknas");
 			else if((new Persons()).exists(nameField.getText())){
 				nameStatusLabel.setText("Namnet finns redan!");
+			} else {
+
 			}				 
 		} catch (SQLException e) {
 			nameStatusLabel.setText("SQL-fel!");			
