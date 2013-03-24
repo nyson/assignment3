@@ -7,15 +7,13 @@ public class Start extends JFrame {
 	// don't know, eclipse forced me hand
 	private static final long serialVersionUID = -8523424458968940482L;
 	
-	// Graphical elements to be used
+// Graphical elements to be used
 	//Menus
 	JMenuBar menuBar = new JMenuBar();
-	JMenu fileMenu = new JMenu("Arkiv"),
-		registerMenu = new JMenu("Registerhantering"),
+	JMenu registerMenu = new JMenu("Registerhantering"),
 		manageAccountsMenu = new JMenu("Kontohantering"),
 		helpMenu = new JMenu("Hjälp");
-	JMenuItem connectDBMenuItem = new JMenuItem("Anslut databas"),
-		newPersonMenuItem = new JMenuItem("Ny kontoinnehavare"),
+	JMenuItem newPersonMenuItem = new JMenuItem("Ny kontoinnehavare"),
 		newAccountMenuItem = new JMenuItem("Nytt konto"),
 		depositWithdrawMenuItem = new JMenuItem("Insättning/Uttag"),
 		transferMenuItem = new JMenuItem("Överföring"),
@@ -23,7 +21,7 @@ public class Start extends JFrame {
 		aboutMenuItem = new JMenuItem("Om");
 		
 	//Panels
-	ConnectDBPanel connectDBPanel = new ConnectDBPanel();
+	WelcomePanel connectDBPanel = new WelcomePanel();
 	PersonPanel personPanel = new PersonPanel();
 	AccountPanel accountPanel = new AccountPanel();
 	DepositWithdrawPanel depositWithdrawPanel = new DepositWithdrawPanel();
@@ -43,9 +41,7 @@ public class Start extends JFrame {
 			activePanel.setVisible(false);	// hide the active panel
 
 			// select a new panel
-			if (e.getSource() == connectDBMenuItem)
-		    	 activePanel = connectDBPanel;
-			else if (e.getSource() == newPersonMenuItem)
+			if (e.getSource() == newPersonMenuItem)
 				activePanel = personPanel;
 			else if (e.getSource() == newAccountMenuItem)
 				activePanel = accountPanel;
@@ -93,22 +89,19 @@ public class Start extends JFrame {
 		}catch(Exception ex){}
 
 		// Add menus
-		menuBar.add(fileMenu); 
+		setJMenuBar(menuBar);
 		menuBar.add(registerMenu);
 		menuBar.add(manageAccountsMenu);
-		// menuBar.setHelpMenu(helpMenu); // JAVA: not yet implemented
 		menuBar.add(helpMenu);
-		fileMenu.add(connectDBMenuItem);
+		// menuBar.setHelpMenu(helpMenu); // JAVA: not yet implemented
 		registerMenu.add(newPersonMenuItem);
 		registerMenu.add(newAccountMenuItem);
 		manageAccountsMenu.add(depositWithdrawMenuItem);
 		manageAccountsMenu.add(transferMenuItem);
 		manageAccountsMenu.add(statementMenuItem);
 		helpMenu.add(aboutMenuItem);
-		setJMenuBar(menuBar);
 
 		// Connect the buttons to the buttonListener
-		connectDBMenuItem.addActionListener(startActionListener);
 		newPersonMenuItem.addActionListener(startActionListener);
 		newAccountMenuItem.addActionListener(startActionListener);
 		depositWithdrawMenuItem.addActionListener(startActionListener);

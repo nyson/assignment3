@@ -11,8 +11,6 @@
  */
 import javax.swing.*;
 import javax.swing.border.*;
-
-import java.awt.event.*;
 import java.awt.*;
 
 
@@ -20,52 +18,24 @@ import java.awt.*;
  * @author Magnus
  *
  */
-public class ConnectDBPanel extends WeraPanel {
+public class WelcomePanel extends WeraPanel {
 
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
-	JLabel choiceLabel = new JLabel("Namn");
-	JTextField choiceField = new JTextField(10);
-	JLabel choiceStatusLabel = new JLabel("Saknas");
-	JButton addButton = new JButton("Lägg till");
-	JButton clearButton = new JButton("Rensa");
-
-	// Reusable objects for settings
-	Dimension panelSize = new Dimension(300,100);
-	
-	/**
-	 *  Listeners
-	 */
-	ActionListener buttonListener = new ActionListener() {
-		// Creates an inner class
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == clearButton){
-				choiceField.setText("");
-			}
-		} // end of inner class
-	}; // End of buttonListener
-
+	JLabel welcomeLabel = new JLabel("   Var god välj tjänst från menyn  ");
 	
 	
 	/**Constructor
 	 * The panel where you can add persons to the database
 	 */
-	public ConnectDBPanel() {
-		
-		// Attach Listeners
-		addButton.addActionListener(buttonListener);
-		clearButton.addActionListener(buttonListener);
-		
-		// Design issues
-		choiceLabel.setBorder(new EtchedBorder());
-		
+	public WelcomePanel() {
+			
 		// Add components so the LayoutmManager can distribute them
 		setLayout(new GridLayout(2,3)); // Use flow strategy to place components
-		add(choiceLabel); add(choiceField); add(choiceStatusLabel);
-		add(addButton);	add(clearButton);
+		add(welcomeLabel);
 		
 		// Give this pane a border with a title
-		setBorder(new TitledBorder("Anslut till databas"));
+		setBorder(new TitledBorder("Välkommen"));
 		//setMaximumSize(panelSize);
 		setVisible(false); // Start hidden
 		
