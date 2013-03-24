@@ -22,9 +22,11 @@ import java.util.ArrayList;
  *
  */
 public class TransferPanel extends WeraPanel {
-	
 	private static final long serialVersionUID = 1L;
-	// Graphical elements to be used 
+
+	ArrayList<Account> accounts = null;
+	
+// Graphical elements to be used 
 	JLabel fromAccountLabel = new JLabel("Från konto");
 	JLabel toAcountLabel = new JLabel("Till konto");
 	JLabel amountLabel = new JLabel("Summa");
@@ -43,25 +45,28 @@ public class TransferPanel extends WeraPanel {
 	Border labelBorder = new EtchedBorder();
 	
 	// Listener for this panels buttons
-		ActionListener buttonListener = new ActionListener() {
-			// skapar inre klass (actionlistener är ett interface)
-			public void actionPerformed(ActionEvent e) {
+	ActionListener buttonListener = new ActionListener() {
+		// inner class
+		public void actionPerformed(ActionEvent e) {
 
-				// which button was pressed?
-				if (e.getSource() == transferButton){
-					try {
-						//Accounts.
-					}
-/*					name = fromAccountComboBox.getText();
-					street = toAccountComboBox.getText();
+			// which button was pressed?
+			if (e.getSource() == transferButton){
+				try {
+					new Accounts().transfer(
+							fromAccountComboBox.getSelectedItem().toString(),
+							Double.parseDouble(amountField.getText()),
+							toAccountComboBox.getSelectedItem().toString());
+				}catch(Exception e2){}
+/*					name = ;
+					street = ;
 					postno = Integer.parseInt(amountField.getText());
 					city = cityField.getText();
 */				}
-				else if (e.getSource() == clearButton){
-			    	amountField.setText("");
-				}
-			} // end of inner class
-		}; // End of Listener for all buttons
+			else if (e.getSource() == clearButton){
+		    	amountField.setText("");
+			}
+		} // end of inner class
+	}; // End of Listener for all buttons
 
 	
 	/**
@@ -90,7 +95,7 @@ public class TransferPanel extends WeraPanel {
 		
 		// Populate fromAccountComboBox and toAccountComboBox 
 		try {
-			ArrayList<Account> accounts = (new Accounts()).getAccounts() ;
+			accounts = (new Accounts()).getAccounts() ;
 			for(Account a : accounts) {
 				fromAccountComboBox.addItem(a.getAccountNo());
 				toAccountComboBox.addItem(a.getAccountNo());
