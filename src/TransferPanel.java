@@ -49,9 +49,6 @@ public class TransferPanel extends WeraPanel {
 
 				// which button was pressed?
 				if (e.getSource() == transferButton){
-					try {
-						//Accounts.
-					}
 /*					name = fromAccountComboBox.getText();
 					street = toAccountComboBox.getText();
 					postno = Integer.parseInt(amountField.getText());
