@@ -83,6 +83,40 @@ public class Accounts {
 		return accounts;
 	}
 	
+	public ArrayList<Transaction> getTransactions()
+			throws SQLException{
+		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+	
+		Statement st = DB.getInstance().getStatement();
+		ResultSet transult = st.executeQuery
+				("SELECT kontonr, typ, belopp, OCRmeddelande FROM gjordatrans");
+		
+		while(transult.next()) {
+			Transaction.Type t;
+			switch(transult.getString(2)){
+			case "ins":
+				t = Transaction.Type.DEPOSIT;
+				break;
+				
+			default:
+			case "utt":
+				t = Transaction.Type.WITHDRAWAL;
+				break;
+			}
+			try {
+				transactions.add(new Transaction(
+						transult.getString(1), 
+						t, 
+						transult.getDouble(3), 
+						transult.getString(4)));
+			} catch (Transaction.InvalidOCRException e) {
+				System.out.println("Invalid OCR: " + e);
+			}
+		}
+		
+		return transactions;
+	}
+	
 	/**
 	 * Fetches an account by account number
 	 * @param accountno Account number
@@ -91,8 +125,7 @@ public class Accounts {
 	 * @throws NoSuchRowException
 	 */
 	public Account getAccountByAccountNo(String accountno)
-		throws SQLException, NoSuchRowException, 
-			Account.BadAccountTypeException{
+		throws SQLException, NoSuchRowException {
 		String query = "SELECT * FROM konto WHERE kontonr = ?";
 		
 		PreparedStatement statement = DB.prepareStatement(query); 
@@ -104,9 +137,23 @@ public class Accounts {
 			throw new NoSuchRowException
 				("No Account with key '" + accountno + "'!");
 		
-		Account account = new Account(rsa.getString(1), rsa.getString(2),
-				rsa.getString(3), rsa.getDouble(4));
+		Account.Type t;
+		switch(rsa.getString(2)) {
+		case "spar":
+			t = Account.Type.SAVINGS;
+			break;
+			
+		default:
+		case "loen":
+			t = Account.Type.WAGE;
+			break;
+			
+		}
+	
 		
+		Account account = new Account(rsa.getString(1), t,
+			rsa.getString(3), rsa.getDouble(4));
+	
 		rsa.close();
 		statement.close();
 		

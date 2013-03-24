@@ -1,5 +1,4 @@
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Handles Accounts and SQL update connections
@@ -13,6 +12,7 @@ public class Account {
 	
 	/**
 	 * Exception for bad account types, ie not in AccountType range
+	 * 
 	 * @author Jonathan Skårstedt
 	 * @author Oskar Linder Pålsgård
 	 * @author Magnus Duberg
@@ -141,13 +141,27 @@ public class Account {
 	
 	
 	/**
-	 * Deposits set amount to account
+	 * Deposits set amount to account and saves it into SQL
 	 * @param amount Amount to deposit
 	 * @return New account balance
+	 * @throws SQLException
 	 */
-	public double deposit(double amount){
+	public double deposit(double amount) throws SQLException {
 		balance += amount;
-		return balance;
+
+
+		PreparedStatement s = DB.prepareStatement
+			("UPDATE konto SET saldo = ? WHERE kontonr = ?");
+		
+		s.setDouble(1, balance);
+		s.setString(2, key);
+		
+		s.executeUpdate();
+		
+		Transaction t = new Transaction(key, Transaction.Type.DEPOSIT, amount);
+		t.register();
+		
+		return balance;				
 	}
 	
 	/**
@@ -156,10 +170,23 @@ public class Account {
 	 * @return New account balance 
 	 * @throws NotEnoughMineralsException on lack of funds
 	 */
-	public double withdraw(double amount) throws NotEnoughMineralsException {
+	public double withdraw(double amount) 
+			throws NotEnoughMineralsException, SQLException {
 		if(balance - amount < 0)
 			throw new NotEnoughMineralsException
 				("You don't have that much in the bank!");
+		
+		PreparedStatement s = DB.prepareStatement
+				("UPDATE konto SET saldo = ? WHERE kontonr = ?");
+			
+		s.setDouble(1, balance);
+		s.setString(2, key);
+		
+		s.executeUpdate();
+		
+		Transaction t = new Transaction(key, Transaction.Type.WITHDRAWAL, amount);
+		t.register();
+					
 		
 		balance -= amount;
 		return balance;
