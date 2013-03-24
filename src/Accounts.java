@@ -14,7 +14,7 @@ public class Accounts {
 	 * @return true on success
 	 * @throws SQLException
 	 */
-	public boolean add(String holder, String number, double balance, 
+	public boolean addAccount(String holder, String number, double balance, 
 			Account.Type type) throws SQLException{
 		
 		PreparedStatement ps = DB.prepareStatement
@@ -81,6 +81,43 @@ public class Accounts {
 		rs.close();
 		state.close();
 		return accounts;
+	}
+	
+	public ArrayList<Transaction> getTransactionsByAccount(String account)
+			throws SQLException{
+		ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+		String query 
+			= "SELECT kontonr, typ, belopp, OCRmeddelande FROM gjordatrans "
+				+ "WHERE kontonr = ?";
+		PreparedStatement st = DB.prepareStatement(query);
+		st.setString(1, account);		
+		
+		ResultSet transult = st.executeQuery();
+		
+		while(transult.next()) {
+			Transaction.Type t;
+			switch(transult.getString(2)){
+			case "ins":
+				t = Transaction.Type.DEPOSIT;
+				break;
+				
+			default:
+			case "utt":
+				t = Transaction.Type.WITHDRAWAL;
+				break;
+			}
+			try {
+				transactions.add(new Transaction(
+						transult.getString(1), 
+						t, 
+						transult.getDouble(3), 
+						transult.getString(4)));
+			} catch (Transaction.InvalidOCRException e) {
+				System.out.println("Invalid OCR: " + e);
+			}
+		}
+		
+		return transactions;		
 	}
 	
 	public ArrayList<Transaction> getTransactions()
