@@ -21,28 +21,19 @@ import java.awt.*;
  */
 public class TransferPanel extends WeraPanel {
 	
-	String name = "";
-	String street = "";
-	int postno = 0;
-	String city = "";
-	Person personToAdd = new Person(name, street, postno, city);
-
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
-	JLabel nameLabel = new JLabel("Namn");
-	JLabel streetLabel = new JLabel("Gatuadress");
-	JLabel postnoLabel = new JLabel("Postnummer");
-	JLabel cityLabel = new JLabel("Stad");
-	JTextField nameField = new JTextField(10);
-	JTextField streetField = new JTextField(10);
-	JTextField postnoField = new JTextField(10);
-	JTextField cityField = new JTextField(10);
-	JLabel nameStatusLabel = new JLabel("Saknas");
-	JLabel streetStatusLabel = new JLabel("Saknas");
-	JLabel postnoStatusLabel = new JLabel("Saknas");
-	JLabel cityStatusLabel = new JLabel("Saknas");
-	JButton addButton = new JButton("Lägg till");
-	JButton clearButton = new JButton("Rensa");
+	JLabel fromAccountLabel = new JLabel("Från konto");
+	JLabel toAcountLabel = new JLabel("Till konto");
+	JLabel amountLabel = new JLabel("Summa");
+	JComboBox<String> fromAccountComboBox = new JComboBox<String>();
+	JComboBox<String> toAccountComboBox = new JComboBox<String>();
+	JTextField amountField = new JTextField(10);
+	JLabel fromAccountStatusLabel = new JLabel("");
+	JLabel toAccountStatusLabel = new JLabel("");
+	JLabel amountStatusLabel = new JLabel("");
+	JButton transferButton = new JButton("");
+	JButton updateButton = new JButton("");
 	
 
 	// Reusable objects for design settings
@@ -55,15 +46,15 @@ public class TransferPanel extends WeraPanel {
 			public void actionPerformed(ActionEvent e) {
 
 				// which button was pressed?
-				if (e.getSource() == addButton){
-					name = nameField.getText();
-					street = streetField.getText();
-					postno = Integer.parseInt(postnoField.getText());
+				if (e.getSource() == transferButton){
+/*					name = fromAccountComboBox.getText();
+					street = toAccountComboBox.getText();
+					postno = Integer.parseInt(amountField.getText());
 					city = cityField.getText();
+*/				}
+				else if (e.getSource() == updateButton){
+			    	// toAccountComboBox.("Clear");
 				}
-				else if (e.getSource() == clearButton)
-			    	 streetField.setText("Clear");
-				
 			} // end of inner class
 		}; // End of Listener for all buttons
 
@@ -75,22 +66,20 @@ public class TransferPanel extends WeraPanel {
 	// Set the start settings for all components
 		
 		// Attach ActionListeners
-		addButton.addActionListener(buttonListener);
-		clearButton.addActionListener(buttonListener);
+		transferButton.addActionListener(buttonListener);
+		updateButton.addActionListener(buttonListener);
 		
 		// Design (border styles) 
-		nameLabel.setBorder(labelBorder);
-		streetLabel.setBorder(labelBorder);
-		postnoLabel.setBorder(labelBorder);
-		cityLabel.setBorder(labelBorder);
+		fromAccountLabel.setBorder(labelBorder);
+		toAcountLabel.setBorder(labelBorder);
+		amountLabel.setBorder(labelBorder);
 		
 		// Add components so the LayoutmManager can distribute them
 		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
-		add(nameLabel); add(nameField); add(nameStatusLabel);
-		add(streetLabel); add(streetField); add(streetStatusLabel);
-		add(postnoLabel); add(postnoField); add(postnoStatusLabel);
-		add(cityLabel); add(cityField); add(cityStatusLabel);
-		add(addButton);	add(clearButton);
+		add(fromAccountLabel); add(fromAccountComboBox); add(fromAccountStatusLabel);
+		add(toAcountLabel); add(toAccountComboBox); add(toAccountStatusLabel);
+		add(amountLabel); add(amountField); add(amountStatusLabel);
+		add(transferButton);	add(updateButton);
 		
 		// Give this pane a border with a title
 		setBorder(new TitledBorder("Lägg till ny överföring"));
