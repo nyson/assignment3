@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 /**
  * @author Magnus
@@ -56,10 +57,30 @@ public class PersonPanel extends WeraPanel {
 
 				// which button was pressed?
 				if (e.getSource() == addButton){
-					name = nameField.getText();
-					street = streetField.getText();
-					zip = Integer.parseInt(zipField.getText());
-					city = cityField.getText();
+					try {
+						name = nameField.getText();
+						street = streetField.getText();
+						zip = Integer.parseInt(zipField.getText());
+						city = cityField.getText();
+						
+						Persons pers = new Persons();
+						pers.add(name, city, street, zip);
+						
+					} catch (NumberFormatException ex) {
+
+						JOptionPane.showMessageDialog(
+								null,
+								"Du misslyckades med att mata in ett nummer!\n"
+								+ ex.getMessage(),	
+								"Fel inmatning", JOptionPane.ERROR_MESSAGE);
+					} catch (SQLException ex) {
+						JOptionPane.showMessageDialog(
+								null,
+								"SQL-fel!\n" + ex.getMessage(),	
+								"Trasig SQL", JOptionPane.ERROR_MESSAGE);
+						
+					}
+					
 				}
 				else if (e.getSource() == clearButton)
 			    	 streetField.setText("Clear");
