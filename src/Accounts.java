@@ -112,10 +112,11 @@ public class Accounts {
 	 * @throws NotEnoughMineralsException
 	 * @throws SQLException
 	 */
-	public void transfer(Account a, double amount, Account b) 
+	public void transfer(String a, double amount, String b) 
 			throws NotEnoughMineralsException, SQLException{
-		a.withdraw(amount);
-		b.deposit(amount);
+		
+		getAccountByAccountNo(a).withdraw(amount);
+		getAccountByAccountNo(b).deposit(amount);
 	}
 	
 	/**

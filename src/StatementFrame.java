@@ -23,6 +23,11 @@ public class StatementFrame extends JFrame {
 	public StatementFrame() throws HeadlessException {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	public static void main(){
+		
+	}
 
 
 
