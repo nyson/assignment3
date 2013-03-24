@@ -14,6 +14,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * @author Magnus
@@ -32,8 +34,8 @@ public class TransferPanel extends WeraPanel {
 	JLabel fromAccountStatusLabel = new JLabel("");
 	JLabel toAccountStatusLabel = new JLabel("");
 	JLabel amountStatusLabel = new JLabel("");
-	JButton transferButton = new JButton("");
-	JButton updateButton = new JButton("");
+	JButton transferButton = new JButton("Överför");
+	JButton clearButton = new JButton("Rensa");
 	
 
 	// Reusable objects for design settings
@@ -47,13 +49,16 @@ public class TransferPanel extends WeraPanel {
 
 				// which button was pressed?
 				if (e.getSource() == transferButton){
+					try {
+						//Accounts.
+					}
 /*					name = fromAccountComboBox.getText();
 					street = toAccountComboBox.getText();
 					postno = Integer.parseInt(amountField.getText());
 					city = cityField.getText();
 */				}
-				else if (e.getSource() == updateButton){
-			    	// toAccountComboBox.("Clear");
+				else if (e.getSource() == clearButton){
+			    	amountField.setText("");
 				}
 			} // end of inner class
 		}; // End of Listener for all buttons
@@ -67,7 +72,7 @@ public class TransferPanel extends WeraPanel {
 		
 		// Attach ActionListeners
 		transferButton.addActionListener(buttonListener);
-		updateButton.addActionListener(buttonListener);
+		clearButton.addActionListener(buttonListener);
 		
 		// Design (border styles) 
 		fromAccountLabel.setBorder(labelBorder);
@@ -75,11 +80,28 @@ public class TransferPanel extends WeraPanel {
 		amountLabel.setBorder(labelBorder);
 		
 		// Add components so the LayoutmManager can distribute them
-		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
-		add(fromAccountLabel); add(fromAccountComboBox); add(fromAccountStatusLabel);
+		setLayout(new GridLayout(4,3)); // Use flow strategy to place components
+		add(fromAccountLabel); add(fromAccountComboBox);
+			add(fromAccountStatusLabel);
 		add(toAcountLabel); add(toAccountComboBox); add(toAccountStatusLabel);
 		add(amountLabel); add(amountField); add(amountStatusLabel);
-		add(transferButton);	add(updateButton);
+		add(transferButton);	add(clearButton);
+		
+		
+		// Populate fromAccountComboBox and toAccountComboBox 
+		try {
+			ArrayList<Account> accounts = (new Accounts()).getAccounts() ;
+			for(Account a : accounts) {
+				fromAccountComboBox.addItem(a.getAccountNo());
+				toAccountComboBox.addItem(a.getAccountNo());
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(
+					null,
+					"SQL-fel!\n" + e.getMessage(),	
+					"Trasig SQL", JOptionPane.ERROR_MESSAGE);			
+		}
+
 		
 		// Give this pane a border with a title
 		setBorder(new TitledBorder("Lägg till ny överföring"));
