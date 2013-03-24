@@ -12,96 +12,196 @@
 
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.event.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 /**
  * @author T66M
  *
  */
 public class DepositWithdrawPanel extends WeraPanel {
-	
+
 	String account = "";
-	String amount = "";
-	Boolean withdraw = false;
+	double amount;
+	Transaction.Type transactionType;
 	//Setting withdrawl or deposit object
 	//Trans tracc = new Trans(account, amount);
-	
-	
+
+
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
 	JLabel accountLabel = new JLabel("Account");
 	JLabel amountLabel = new JLabel("Amount");
-	JTextField accountField = new JTextField(10);
+
+	JComboBox<String> accountBox = new JComboBox<String>();
 	JTextField amountField = new JTextField(10);
-	JLabel accountStatusLabel = new JLabel("Saknas");
+
+	JLabel accountStatusLabel = new JLabel("");
 	JLabel amountStatusLabel = new JLabel("Saknas");
 	JLabel hidden = new JLabel(" ");
 	JButton performButton = new JButton("Genomför");
 	JButton clearButton = new JButton("Rensa");
-	
+
 	ButtonGroup oper = new ButtonGroup();
-	private JRadioButton r1 = new JRadioButton("Deposit"),
-						r2 = new JRadioButton("Withdrawl", true);
+	private JRadioButton depositRadio = new JRadioButton("Deposit"),
+			withdrawRadio = new JRadioButton("Withdrawl", true);
+
+	ChangeListener radioListener = new ChangeListener() {
+	    public void stateChanged(ChangeEvent e) {
+	    	updateStatusLabels();
+	    }
+	};
 	
 	
+	KeyListener updateListener = new KeyListener() {
+        public void keyTyped(KeyEvent e) {}
+        public void keyPressed(KeyEvent e) {}
+        
+        public void keyReleased(KeyEvent e) {
+        	updateStatusLabels();
+        }
+	};
 
 	// Reusable objects for design settings
 	Dimension panelSize = new Dimension(300,100);
 	Border labelBorder = new EtchedBorder();
-	
-	// Listener for this panels buttons
-		ActionListener buttonListener = new ActionListener() {
-			// skapar inre klass (actionlistener är ett interface)
-			public void actionPerformed(ActionEvent e) {
-				//Radio Button Selected;
-				// which button was pressed?
-				if (e.getSource() == performButton){
-					account = accountField.getText();
-					amount = amountField.getText();
-					if (r1.isSelected()) {
-						withdraw = false;
-					} else if (r2.isSelected()) {
-						withdraw = true;
-				}
-				} else if (e.getSource() == clearButton) {
-			    	 amountField.setText("Clear");
-					 accountField.setText("Clear");
-				}
-			} // end of inner class
-		}; // End of Listener for all buttons
 
-	
+	// Listener for this panels buttons
+	ActionListener buttonListener = new ActionListener() {
+		// skapar inre klass (actionlistener är ett interface)
+		public void actionPerformed(ActionEvent e) {
+			//Radio Button Selected;
+			// which button was pressed?
+			if (e.getSource() == performButton){
+				try {
+					checkUserInput();
+					account = accountBox.getSelectedItem().toString();
+					amount = Double.parseDouble(amountField.getText());
+					
+					Account transferee = (new Accounts())
+							.getAccountByAccountNo(account);
+					if (depositRadio.isSelected()) {
+						transferee.deposit(amount);
+					} else if (withdrawRadio.isSelected()) {
+						transferee.withdraw(amount);
+					}
+					
+					
+					
+					
+				}catch (BadUserInputException ex) {
+					JOptionPane.showMessageDialog(null,	
+							"Du har gjort en dålig inmatning!",
+							"Inputfel!", JOptionPane.ERROR_MESSAGE);
+				} catch (SQLException ex) {
+					JOptionPane.showMessageDialog(null,	ex.getMessage(),
+							"SQL-fel!", JOptionPane.ERROR_MESSAGE);
+				} catch (NotEnoughMineralsException ex) {
+					JOptionPane.showMessageDialog(null,	ex.getMessage(),
+							"Pengar saknas!", JOptionPane.ERROR_MESSAGE);
+				}
+
+
+			} else if (e.getSource() == clearButton) {
+				amountField.setText("0.00");
+			}
+		} // end of inner class
+	}; // End of Listener for all buttons
+
+
 	/**
 	 * The panel where you can add new persons to the database
 	 */
 	public DepositWithdrawPanel() {
-	// Set the start settings for all components
-		
+		// Set the start settings for all components
+
 		// Attach ActionListeners
 		performButton.addActionListener(buttonListener);
 		clearButton.addActionListener(buttonListener);
+
+		amountField.addKeyListener(updateListener);
 		
+		depositRadio.addChangeListener(radioListener);
+		withdrawRadio.addChangeListener(radioListener);
+		
+		accountBox.addActionListener (new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		        updateStatusLabels();
+		    }
+		});
+			
 		// Design (border styles) 
 		accountLabel.setBorder(labelBorder);
 		amountLabel.setBorder(labelBorder);
 		//oper.setBorder(labelBorder);
-		oper.add(r1); oper.add(r2);
+		oper.add(depositRadio); oper.add(withdrawRadio);
 		// Add components so the LayoutmManager can distribute them
 		setLayout(new GridLayout(4,3)); // Use flow strategy to place components
-		
+		try {
+			for(Account a: (new Accounts()).getAccounts()) {
+				accountBox.addItem(a.getAccountNo());
+			}
 
-		add(accountLabel); add(accountField); add(accountStatusLabel);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "SQL-fel!", "Fel!",
+					JOptionPane.ERROR_MESSAGE);
+		}
+
+		add(accountLabel); add(accountBox); add(accountStatusLabel);
 		add(amountLabel); add(amountField); add(amountStatusLabel);
 		add(hidden); add(performButton); add(clearButton); add(hidden);
-		add(r1); add(r2);
-		
+		add(depositRadio); add(withdrawRadio);
+
 		// Give this pane a border with a title
 		setBorder(new TitledBorder("Lägg till ny insättning/uttag"));
 		//setMaximumSize(panelSize);
 		setVisible(false); // Start hidden
+
+	}
+
+	private void updateStatusLabels(){
+		amountStatusLabel.setText("");
+		
+		if(amountField.getText().isEmpty())
+			amountStatusLabel.setText("Saknas");
+
+		try {
+			double amount = Double.parseDouble(amountField.getText());
+			Account a = (new Accounts())
+					.getAccountByAccountNo
+						(accountBox.getSelectedItem().toString());
+			if(withdrawRadio.isSelected() && a.getAccountBalance() < amount) {
+				amountStatusLabel
+					.setText("Belopp saknas!");
+			}
+		} catch (NumberFormatException e) {
+			amountStatusLabel.setText("Inte ett tal!");
+			
+		} catch (NoSuchRowException e) {
+			// ignored
+			
+		} catch (SQLException e) {
+			// ignored
+		}
+		
 		
 	}
+
+	private void checkUserInput() throws BadUserInputException {
+		if(amountField.getText().isEmpty()) 
+			throw new BadUserInputException("Du har tomma fält!");
+
+		try {
+			Double.parseDouble(amountField.getText());
+		} catch (NumberFormatException e) {
+			throw new BadUserInputException("Du måste skriva ett tal!");
+		}
+	}	
+
 
 	/**
 	 * Gives the user some feed back
