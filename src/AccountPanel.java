@@ -1,16 +1,3 @@
-/* READ THIS!!
-
- * All this file does is
- * A: Being a CPanel WITHIN the main CFrame i.e. Start.java
- * B: Handles the input from the user, filling a form
- * C: Saving the values in some variables on the press of a button
- * When that button is pressed Start.java 
- * 		1. reads these values
- * 		2. querys the Bank object
- * 		3. and returns an answer to this CPanel
- * D: Displays the answer to the user (and clears the form)
- */
-
 import javax.swing.*;
 import java.util.*;
 import javax.swing.border.*;
@@ -19,18 +6,18 @@ import java.awt.*;
 import java.sql.*;
 
 /**
- * @author Magnus
+ * @author Magnus, Jonathan, Oskar
  *
  */
 public class AccountPanel extends WeraPanel {
+	private static final long serialVersionUID = 1L;
+
+	// Variables
 	String accountNumber;
 	String holder;
 	Account.Type type;
-	double balance;
-	
-	
+	double balance;	
 
-	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
 	JLabel numberLabel = new JLabel("Kontonummer");
 	JLabel holderLabel = new JLabel("Kontoägare");

@@ -16,7 +16,7 @@ public class DepositWithdrawPanel extends WeraPanel {
 	String account = "";
 	double amount;
 	Transaction.Type transactionType;
-	//Setting withdrawl or deposit object
+	//Setting withdrawal or deposit object
 	//Trans tracc = new Trans(account, amount);
 
 
@@ -165,8 +165,6 @@ public class DepositWithdrawPanel extends WeraPanel {
 		} catch (SQLException e) {
 			// ignored
 		}
-		
-		
 	}
 
 	private void checkUserInput() throws BadUserInputException {
@@ -196,7 +194,6 @@ public class DepositWithdrawPanel extends WeraPanel {
 			JOptionPane.showMessageDialog(null, "SQL-fel!", "Fel!",
 					JOptionPane.ERROR_MESSAGE);
 		}
-
 	}
 }
 

@@ -20,7 +20,7 @@ public class StatementFrame extends JFrame {
 	/**
 	 * @throws HeadlessException
 	 */
-	public StatementFrame() throws HeadlessException {
+	public StatementFrame(String accountNr) throws HeadlessException {
 		// TODO Auto-generated constructor stub
 	}
 	
