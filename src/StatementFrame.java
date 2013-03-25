@@ -25,8 +25,9 @@ public class StatementFrame extends JFrame {
 	}
 	
 	
-	public static void main(){
-		
+	public static void main(String[] args){
+		StatementFrame statement = new StatementFrame();
+		statement.setVisible(true);
 	}
 
 
