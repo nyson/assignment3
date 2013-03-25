@@ -63,13 +63,14 @@ public class Start extends JFrame {
 	}; // End of Listener for menus
 	
 	
-	// Other class wide settings that can be reused
+	// Dimensions
+	Dimension windowSize = new Dimension(450, 250);
+	Dimension spacer =  new Dimension(430,20);
+	
+	//About message
 	String aboutMessage = "Denna kan bytas sen till en hur" +
 			" fflasshig som helst.\n\n Skapad av:\n" +
-			" Jonatha\n Oskar\n Magnus";
-	Dimension windowSize = new Dimension(500, 350);
-	Dimension spacer =  new Dimension(450,20);
-	
+			" Jonatha\n Oskar\n Magnus";	
 
 	/**
 	 * Constructor of Start.java

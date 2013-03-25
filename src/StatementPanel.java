@@ -35,11 +35,14 @@ public class StatementPanel extends WeraPanel {
 					// Create the statement window
 					String chosenAccountNr = accountComboBox.getSelectedItem()
 							.toString();
-					StatementFrame statementFrame = 
-							new StatementFrame(chosenAccountNr);
+					try {Account chosenAccount = new Accounts()
+							.getAccountByAccountNo(chosenAccountNr);
+						StatementFrame statementFrame = 
+							new StatementFrame(chosenAccount);
+						statementFrame.setVisible(true);
+					}catch(Exception e2){}
 					// show the statement frame
 					// OBS! BEHÖVER LADDAS MED NYA DATA FÖRST!
-					statementFrame.setVisible(true);
 				}				
 			} // end of inner class
 		}; // End of Listener for this panels buttons
