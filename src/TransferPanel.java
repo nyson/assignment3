@@ -56,12 +56,14 @@ public class TransferPanel extends WeraPanel {
 							fromAccountComboBox.getSelectedItem().toString(),
 							Double.parseDouble(amountField.getText()),
 							toAccountComboBox.getSelectedItem().toString());
-				}catch(Exception e2){}
-/*					name = ;
-					street = ;
-					postno = Integer.parseInt(amountField.getText());
-					city = cityField.getText();
-*/				}
+				} catch (SQLException ex) {
+					JOptionPane.showMessageDialog(getParent(),	ex.getMessage(),
+							"SQL-fel!", JOptionPane.ERROR_MESSAGE);
+				} catch (NotEnoughMineralsException ex) {
+					JOptionPane.showMessageDialog(getParent(),	ex.getMessage(),
+							"Pengar saknas!", JOptionPane.ERROR_MESSAGE);
+				}
+			}
 			else if (e.getSource() == clearButton){
 		    	amountField.setText("");
 			}
