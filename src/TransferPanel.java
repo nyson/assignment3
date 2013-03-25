@@ -62,10 +62,15 @@ public class TransferPanel extends WeraPanel {
 				} catch (NotEnoughMineralsException ex) {
 					JOptionPane.showMessageDialog(getParent(),	ex.getMessage(),
 							"Pengar saknas!", JOptionPane.ERROR_MESSAGE);
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(getParent(),
+							"Endast siffror och en decimalpunkt",
+							"Felaktigt tecken",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			else if (e.getSource() == clearButton){
-		    	amountField.setText("");
+		    	amountField.setText("0.00");
 			}
 		} // end of inner class
 	}; // End of Listener for all buttons
@@ -94,6 +99,8 @@ public class TransferPanel extends WeraPanel {
 		add(amountLabel); add(amountField); add(amountStatusLabel);
 		add(transferButton);	add(clearButton);
 		
+		// Set start value in amountField
+		amountField.setText("0.00");
 		
 		// Populate fromAccountComboBox and toAccountComboBox 
 		try {
@@ -108,7 +115,7 @@ public class TransferPanel extends WeraPanel {
 					"SQL-fel!\n" + e.getMessage(),	
 					"Trasig SQL", JOptionPane.ERROR_MESSAGE);			
 		}
-
+		
 		
 		// Give this pane a border with a title
 		setBorder(new TitledBorder("Lägg till ny överföring"));
