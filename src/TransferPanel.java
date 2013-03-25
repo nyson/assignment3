@@ -99,11 +99,20 @@ public class TransferPanel extends WeraPanel {
 		add(amountLabel); add(amountField); add(amountStatusLabel);
 		add(transferButton);	add(clearButton);
 		
+		// Give this pane a border with a title
+		setBorder(new TitledBorder("Lägg till ny överföring"));
+		//setMaximumSize(panelSize);
+		setVisible(false); // Start hidden
+	}
+
+	void update(){
 		// Set start value in amountField
 		amountField.setText("0.00");
 		
 		// Populate fromAccountComboBox and toAccountComboBox 
 		try {
+			fromAccountComboBox.removeAllItems();
+			toAccountComboBox.removeAllItems();
 			accounts = (new Accounts()).getAccounts() ;
 			for(Account a : accounts) {
 				fromAccountComboBox.addItem(a.getAccountNo());
@@ -116,19 +125,5 @@ public class TransferPanel extends WeraPanel {
 					"Trasig SQL", JOptionPane.ERROR_MESSAGE);			
 		}
 		
-		
-		// Give this pane a border with a title
-		setBorder(new TitledBorder("Lägg till ny överföring"));
-		//setMaximumSize(panelSize);
-		setVisible(false); // Start hidden
-		
-	}
-
-	/**
-	 * Gives the user some feed back
-	 * @param answer
-	 */
-	void handleAnswer(String answer){
-		JOptionPane.showMessageDialog(getParent(), answer);
 	}
 }

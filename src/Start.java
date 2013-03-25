@@ -56,7 +56,8 @@ public class Start extends JFrame {
 			else if (e.getSource() == aboutMenuItem){
 				JOptionPane.showMessageDialog(rootPane, aboutMessage, "Om" +
 						" Weras betalservice", JOptionPane.INFORMATION_MESSAGE);
-			}// end of if() statement			
+			}// end of if() statement	
+			activePanel.update();
 			activePanel.setVisible(true);	// show the selected panel
 		} // end of inner class
 	}; // End of Listener for menus

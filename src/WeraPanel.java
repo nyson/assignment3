@@ -15,7 +15,10 @@ public abstract class WeraPanel extends JPanel {
 
 	
 	// These methods must be implemented if extended by WeraPanel
-	abstract void handleAnswer(String answer);
+	/**
+	 * Fills the proper fields with updated values
+	 */
+	abstract void update();
 	
 	
 }

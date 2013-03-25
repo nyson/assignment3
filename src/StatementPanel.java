@@ -80,14 +80,10 @@ public class StatementPanel extends WeraPanel {
 		setBorder(new TitledBorder("Välj konto"));
 		//setMaximumSize(panelSize);
 		setVisible(false); // Start hidden
-		
 	}
 
-	/**
-	 * Gives the user some feed back
-	 * @param answer
-	 */
-	void handleAnswer(String answer){
-		JOptionPane.showMessageDialog(getParent(), answer);
+	void update(){
+		
+		
 	}
 }

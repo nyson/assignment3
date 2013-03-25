@@ -41,12 +41,7 @@ public class WelcomePanel extends WeraPanel {
 		
 	}
 	
-	/**
-	 * Gives the user some feed back
-	 * @param answer
-	 */
-	void handleAnswer(String answer){
-		JOptionPane.showMessageDialog(getParent(), answer);
+	void update(){
 	}
 
 }

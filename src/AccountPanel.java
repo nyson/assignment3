@@ -68,7 +68,7 @@ public class AccountPanel extends WeraPanel {
     
 	// Listener for this panels buttons
 	ActionListener buttonListener = new ActionListener() {
-		// skapar inre klass (actionlistener är ett interface)
+		// create inner class
 		public void actionPerformed(ActionEvent e) {
 
 			// which button was pressed?
@@ -146,8 +146,6 @@ public class AccountPanel extends WeraPanel {
 		typeLabel.setBorder(labelBorder);
 		balanceLabel.setBorder(labelBorder);
 		
-	 	balanceField.setText("0.00");
-		
 		// Add components so the LayoutmManager can distribute them
 		// setLayout(new GridLayout(5,3))
 		setLayout(new GridLayout(5,3)); // Use flow strategy to place components
@@ -164,26 +162,10 @@ public class AccountPanel extends WeraPanel {
 		for(String t : types) {
 			typeBox.addItem(t);
 		}
-		
-		try {
-			ArrayList<Person> persons = (new Persons()).getPersons() ;
-			for(Person p : persons) {
-				holderBox.addItem(p.getName());
-			}
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(
-					null,
-					"SQL-fel!\n" + e.getMessage(),	
-					"Trasig SQL", JOptionPane.ERROR_MESSAGE);			
-		}
-		
-		
-		
+				
 		// Give this pane a border with a title
 		setBorder(new TitledBorder("Lägg till nytt konto"));
-		//setMaximumSize(panelSize);
 		setVisible(false); // Start hidden
-		
 	}
 
 	/**
@@ -227,12 +209,20 @@ public class AccountPanel extends WeraPanel {
 		}
 	}
 	
-	/**
-	 * Gives the user some feed back
-	 * @param answer
-	 */
-	void handleAnswer(String answer){
-		JOptionPane.showMessageDialog(getParent(), answer);
+	void update(){
+		numberField.setText("");
+	 	balanceField.setText("0.00");
+	 	holderBox.removeAllItems();
+		try {
+			ArrayList<Person> persons = (new Persons()).getPersons() ;
+			for(Person p : persons) {
+				holderBox.addItem(p.getName());
+			}
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(
+					getParent(),
+					"SQL-fel!\n" + e.getMessage(),	
+					"Trasig SQL", JOptionPane.ERROR_MESSAGE);			
+		}
 	}
-
 }

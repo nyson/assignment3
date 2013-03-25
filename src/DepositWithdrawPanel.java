@@ -1,15 +1,3 @@
-/* READ THIS!!
- * All this file does is
- * A: Being a CPanel WITHIN the main CFrame i.e. Start.java
- * B: Handles the input from the user, filling a form
- * C: Saving the values in some variables on the press of a button
- * When that button is pressed Start.java 
- * 		1. reads these values
- * 		2. querys the Bank object
- * 		3. and returns an answer to this CPanel
- * D: Displays the answer to the user (and clears the form)
- */
-
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.ChangeEvent;
@@ -34,8 +22,8 @@ public class DepositWithdrawPanel extends WeraPanel {
 
 	private static final long serialVersionUID = 1L;
 	// Graphical elements to be used 
-	JLabel accountLabel = new JLabel("Account");
-	JLabel amountLabel = new JLabel("Amount");
+	JLabel accountLabel = new JLabel("Konto");
+	JLabel amountLabel = new JLabel("Summa");
 
 	JComboBox<String> accountBox = new JComboBox<String>();
 	JTextField amountField = new JTextField(10);
@@ -139,18 +127,9 @@ public class DepositWithdrawPanel extends WeraPanel {
 		amountLabel.setBorder(labelBorder);
 		//oper.setBorder(labelBorder);
 		oper.add(depositRadio); oper.add(withdrawRadio);
+
 		// Add components so the LayoutmManager can distribute them
-		setLayout(new GridLayout(4,3)); // Use flow strategy to place components
-		try {
-			for(Account a: (new Accounts()).getAccounts()) {
-				accountBox.addItem(a.getAccountNo());
-			}
-
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "SQL-fel!", "Fel!",
-					JOptionPane.ERROR_MESSAGE);
-		}
-
+		setLayout(new GridLayout(4,3)); // Use grid strategy to place components
 		add(accountLabel); add(accountBox); add(accountStatusLabel);
 		add(amountLabel); add(amountField); add(amountStatusLabel);
 		add(hidden); add(performButton); add(clearButton); add(hidden);
@@ -160,7 +139,6 @@ public class DepositWithdrawPanel extends WeraPanel {
 		setBorder(new TitledBorder("Lägg till ny insättning/uttag"));
 		//setMaximumSize(panelSize);
 		setVisible(false); // Start hidden
-
 	}
 
 	private void updateStatusLabels(){
@@ -204,11 +182,21 @@ public class DepositWithdrawPanel extends WeraPanel {
 
 
 	/**
-	 * Gives the user some feed back
-	 * @param answer
+	 * Updates the fields with current database values
 	 */
-	void handleAnswer(String answer){
-		JOptionPane.showMessageDialog(getParent(), answer);
+	void update(){
+		amountField.setText("0.00");
+		accountBox.removeAllItems();
+		try {
+			for(Account a: (new Accounts()).getAccounts()) {
+				accountBox.addItem(a.getAccountNo());
+			}
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "SQL-fel!", "Fel!",
+					JOptionPane.ERROR_MESSAGE);
+		}
+
 	}
 }
 

@@ -1,15 +1,3 @@
-/* READ THIS!!
- * All this file does is
- * A: Being a CPanel WITHIN the main CFrame i.e. Start.java
- * B: Handles the input from the user, filling a form
- * C: Saving the values in some variables on the press of a button
- * When that button is pressed Start.java 
- * 		1. reads these values
- * 		2. querys the Bank object
- * 		3. and returns an answer to this CPanel
- * D: Displays the answer to the user (and clears the form)
- */
-
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -18,7 +6,7 @@ import java.awt.*;
 import java.sql.SQLException;
 
 /**
- * @author Magnus
+ * @author Magnus, Jonathan, Oskar
  *
  */
 public class PersonPanel extends WeraPanel {
@@ -39,17 +27,18 @@ public class PersonPanel extends WeraPanel {
 	JTextField streetField = new JTextField(10);
 	JTextField zipField = new JTextField(10);
 	JTextField cityField = new JTextField(10);
-	JLabel nameStatusLabel = new JLabel("Saknas");
-	JLabel streetStatusLabel = new JLabel("Saknas");
-	JLabel zipStatusLabel = new JLabel("Saknas");
-	JLabel cityStatusLabel = new JLabel("Saknas");
+	JLabel nameStatusLabel = new JLabel("Obligatoriskt");
+	JLabel streetStatusLabel = new JLabel("Obligatoriskt");
+	JLabel zipStatusLabel = new JLabel("Obligatoriskt");
+	JLabel cityStatusLabel = new JLabel("Obligatoriskt");
 	JButton addButton = new JButton("Lägg till");
 	JButton clearButton = new JButton("Rensa");
-
 
 	// Reusable objects for design settings
 	Dimension panelSize = new Dimension(300,100);
 	Border labelBorder = new EtchedBorder();
+
+	// Key listener
 	KeyListener updateListener = new KeyListener() {
         public void keyTyped(KeyEvent e) {}
         public void keyPressed(KeyEvent e) {}
@@ -78,25 +67,25 @@ public class PersonPanel extends WeraPanel {
 					pers.add(name, city, street, zip);
 
 					JOptionPane.showMessageDialog(
-							null, name + " lades in i databasen utan problem!", 
+							getParent(), name + " lades in i databasen utan problem!", 
 							"Namn inmatades", 
 							JOptionPane.INFORMATION_MESSAGE);
 
 				} catch (BadUserInputException ex){
 					JOptionPane.showMessageDialog(
-							null, ex.getMessage(), "Felaktig inmatning", 
+							getParent(), ex.getMessage(), "Felaktig inmatning", 
 							JOptionPane.ERROR_MESSAGE);
 
 				} catch (NumberFormatException ex) {
 					JOptionPane.showMessageDialog(
-							null,
+							getParent(),
 							"Du misslyckades med att mata in ett nummer!\n"
 									+ ex.getMessage(),	
 									"Fel inmatning", JOptionPane.ERROR_MESSAGE);
 
 				} catch (SQLException ex) {
 					JOptionPane.showMessageDialog(
-							null,
+							getParent(),
 							"SQL-fel!\n" + ex.getMessage(),	
 							"Trasig SQL", JOptionPane.ERROR_MESSAGE);
 
@@ -104,10 +93,7 @@ public class PersonPanel extends WeraPanel {
 
 			}
 			else if (e.getSource() == clearButton) {
-				nameField.setText("");
-				zipField.setText("");
-				streetField.setText("");
-				cityField.setText("");
+				update();
 				updateStatusLabels();
 			}
 		} // end of inner class
@@ -154,8 +140,11 @@ public class PersonPanel extends WeraPanel {
 	 * Gives the user some feed back
 	 * @param answer
 	 */
-	void handleAnswer(String answer){
-		JOptionPane.showMessageDialog(getParent(), answer);
+	void update(){
+		nameField.setText("");
+		zipField.setText("");
+		streetField.setText("");
+		cityField.setText("");
 	}
 
 	private void updateStatusLabels(){
@@ -166,7 +155,7 @@ public class PersonPanel extends WeraPanel {
 		
 		try {
 			if(nameField.getText().isEmpty())
-				nameStatusLabel.setText("Saknas");
+				nameStatusLabel.setText("Obligatoriskt");
 			else if((new Persons()).exists(nameField.getText())){
 				nameStatusLabel.setText("Namnet finns redan!");
 			} else {
@@ -177,10 +166,10 @@ public class PersonPanel extends WeraPanel {
 		}
 
 		if(streetField.getText().isEmpty())
-			streetStatusLabel.setText("Saknas");
+			streetStatusLabel.setText("Obligatoriskt");
 
 		if(zipField.getText().isEmpty())
-			zipStatusLabel.setText("Saknas");
+			zipStatusLabel.setText("Obligatoriskt");
 		else {
 			try {
 				Integer.parseInt(zipField.getText());
@@ -191,7 +180,7 @@ public class PersonPanel extends WeraPanel {
 
 
 		if(cityField.getText().isEmpty())
-			cityStatusLabel.setText("Saknas"); 
+			cityStatusLabel.setText("Obligatoriskt"); 
 
 	}
 
